@@ -1,0 +1,3121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizza Place | Authenticate</title>
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBjFgn3WOp59KzXani4cBj1d6yQcsgAAiU",
+            authDomain: "myplatform-37fea.firebaseapp.com",
+            projectId: "myplatform-37fea",
+            storageBucket: "myplatform-37fea.firebasestorage.app",
+            messagingSenderId: "1025031599228",
+            appId: "1:1025031599228:web:a4c6ca2aa6df30989605f9",
+            measurementId: "G-5FKXBQQ8GK"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        
+        // Make auth available globally
+        window.auth = auth;
+        window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
+        window.signInWithEmailAndPassword = signInWithEmailAndPassword;
+        window.sendPasswordResetEmail = sendPasswordResetEmail;
+        window.onAuthStateChanged = onAuthStateChanged;
+        window.signOut = signOut;
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --tomato-red: #e74c3c;
+            --tomato-light: #ff6b6b;
+            --cheese-yellow: #f1c40f;
+            --cheese-light: #f7dc6f;
+            --crust-brown: #8b4513;
+            --crust-light: #a0522d;
+            --olive-green: #2ecc71;
+            --pepperoni-red: #c0392b;
+            --mozzarella-white: #f9f9f9;
+            --bg-color: #f9f9f9;
+            --text-dark: #333;
+            --text-light: #fff;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f9f9f9, #ffeaa7);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Auth Section Styles */
+        #auth-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .pizza-container {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pizza-header {
+            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pizza-header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .pizza-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .pizza-crust {
+            height: 8px;
+            background: linear-gradient(to right, var(--crust-brown), var(--crust-light), var(--crust-brown));
+            position: relative;
+        }
+
+        .pizza-crust::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: var(--cheese-yellow);
+            border-radius: 50%;
+        }
+
+        .form-container {
+            padding: 30px;
+        }
+
+        .form-toggle {
+            display: flex;
+            margin-bottom: 25px;
+            background: #f5f5f5;
+            border-radius: 50px;
+            padding: 5px;
+            position: relative;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        .toggle-btn.active {
+            color: white;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            width: calc(50% - 5px);
+            height: calc(100% - 10px);
+            background: linear-gradient(to right, var(--tomato-red), var(--pepperoni-red));
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .form {
+            display: none;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .form.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: color 0.3s;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f9f9f9;
+        }
+
+        .form-control:focus {
+            border-color: var(--tomato-red);
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+            outline: none;
+            background: white;
+        }
+
+        .password-strength {
+            height: 4px;
+            background: #e0e0e0;
+            border-radius: 2px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .strength-meter {
+            height: 100%;
+            width: 0;
+            border-radius: 2px;
+            transition: all 0.4s ease;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+
+        .remember-me input {
+            margin-right: 8px;
+        }
+
+        .forgot-password {
+            color: var(--tomato-red);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .forgot-password:hover {
+            color: var(--pepperoni-red);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, var(--tomato-red), var(--pepperoni-red));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .submit-btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .pizza-decoration {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .pizza-1 {
+            top: 10%;
+            left: 5%;
+            background: radial-gradient(circle, var(--cheese-yellow) 40%, transparent 41%),
+                        radial-gradient(circle, var(--tomato-red) 30%, transparent 31%);
+            background-size: 20px 20px;
+            border-radius: 50%;
+        }
+
+        .pizza-2 {
+            bottom: 10%;
+            right: 5%;
+            background: radial-gradient(circle, var(--cheese-yellow) 40%, transparent 41%),
+                        radial-gradient(circle, var(--olive-green) 25%, transparent 26%);
+            background-size: 20px 20px;
+            border-radius: 50%;
+        }
+
+        .password-info {
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        .message {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .success {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #27ae60;
+            border: 1px solid #2ecc71;
+        }
+
+        .error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #c0392b;
+            border: 1px solid #e74c3c;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Dashboard Section Styles */
+        #dashboard-section {
+            display: none;
+        }
+
+        .dashboard-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: var(--mozzarella-white);
+            min-height: 90vh;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 80px;
+        }
+        
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
+            color: var(--text-light);
+            padding: 20px;
+            position: relative;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><circle cx="50" cy="50" r="40" fill="%23f1c40f" /></svg>');
+            background-size: 50px;
+            z-index: 1;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .pizza-logo {
+            font-weight: bold;
+            font-size: 28px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 8px 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .action-btn {
+            color: var(--text-light);
+            font-size: 14px;
+            text-align: center;
+            flex: 1;
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 20px;
+        }
+        
+        .action-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Banner Slider */
+        .banner-slider {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            margin: 20px 15px;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+        
+        .slider-container {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            color: var(--text-light);
+            position: relative;
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+            z-index: 1;
+        }
+        
+        .slide-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .slide-title {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .slide-description {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .slider-indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 3;
+        }
+        
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .indicator.active {
+            background-color: var(--cheese-yellow);
+            transform: scale(1.2);
+        }
+        
+        /* Balance Section */
+        .balance-section {
+            padding: 20px;
+            background-color: var(--mozzarella-white);
+            border-radius: 15px;
+            margin: 0 15px 20px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .balance-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 80px;
+            height: 80px;
+            background-color: var(--cheese-light);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: var(--tomato-red);
+        }
+        
+        .balance-cards {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .balance-card {
+            flex: 1;
+            background-color: var(--mozzarella-white);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 2px solid transparent;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .balance-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--tomato-red);
+        }
+        
+        .balance-card.primary {
+            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
+            color: var(--text-light);
+        }
+        
+        .balance-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0 5px;
+        }
+        
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* Menu Section */
+        .menu-section {
+            padding: 20px;
+            margin: 0 15px 20px;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .menu-item {
+            background-color: var(--mozzarella-white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .menu-image {
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .menu-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--olive-green);
+            color: var(--text-light);
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .menu-details {
+            padding: 15px;
+        }
+        
+        .menu-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .menu-price {
+            color: var(--tomato-red);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .menu-earnings {
+            color: var(--text-dark);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        /* Investment Section */
+        .investment-section {
+            padding: 20px;
+            margin: 0 15px 20px;
+        }
+        
+        .investment-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .investment-item {
+            background-color: var(--mozzarella-white);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .investment-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .investment-details {
+            flex: 1;
+            z-index: 2;
+        }
+        
+        .investment-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .investment-info {
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+        
+        .investment-amount {
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--tomato-red);
+            z-index: 2;
+        }
+        
+        .investment-image {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 80px;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        /* My Pizza Section */
+        .mypizza-section {
+            padding: 20px;
+            margin: 0 15px 20px;
+        }
+        
+        .profile-card {
+            background-color: var(--mozzarella-white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background-color: var(--cheese-light);
+            border-radius: 50%;
+            opacity: 0.3;
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-weight: bold;
+            font-size: 24px;
+            margin: 0 auto 15px;
+            border: 3px solid var(--cheese-yellow);
+        }
+        
+        .profile-name {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .profile-email {
+            color: var(--text-dark);
+            margin-bottom: 15px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background-color: var(--mozzarella-white);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+        
+        .wallet-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .wallet-card {
+            background-color: var(--mozzarella-white);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .wallet-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .wallet-card.primary {
+            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
+            color: var(--text-light);
+        }
+        
+        .wallet-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .wallet-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .wallet-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .action-card {
+            background-color: var(--mozzarella-white);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--tomato-red);
+        }
+        
+        .action-label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .settings-item {
+            background-color: var(--mozzarella-white);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .settings-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .settings-details {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .settings-icon {
+            font-size: 20px;
+            color: var(--tomato-red);
+        }
+        
+        .settings-name {
+            font-weight: 600;
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--mozzarella-white);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            max-width: 480px;
+            width: calc(100% - 40px);
+            border-radius: 20px;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-dark);
+            font-size: 12px;
+            transition: var(--transition);
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+        
+        .nav-item.active {
+            color: var(--tomato-red);
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+        
+        .nav-item:hover {
+            transform: translateY(-3px);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+        }
+        
+        /* Section Visibility */
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: var(--mozzarella-white);
+            border-radius: 15px;
+            padding: 25px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--tomato-red);
+        }
+        
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-input:focus {
+            border-color: var(--tomato-red);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: white;
+            cursor: pointer;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+        }
+        
+        .btn-primary {
+            background-color: var(--tomato-red);
+            color: var(--text-light);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--pepperoni-red);
+        }
+        
+        .btn-secondary {
+            background-color: #f1f1f1;
+            color: var(--text-dark);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e1e1e1;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .payment-info {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .payment-info p {
+            margin-bottom: 8px;
+        }
+        
+        .countdown {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--tomato-red);
+            margin: 20px 0;
+        }
+        
+        /* Special Effects */
+        @keyframes secretAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .secret-animation {
+            animation: secretAnimation 2s infinite;
+        }
+        
+        .investment-highlight {
+            border: 2px solid var(--cheese-yellow);
+            position: relative;
+        }
+        
+        .investment-highlight::after {
+            content: 'POPULAR';
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            background-color: var(--cheese-yellow);
+            color: var(--text-dark);
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 3;
+        }
+        
+        .dashboard-crust {
+            height: 8px;
+            background: linear-gradient(to right, var(--crust-brown), var(--crust-light), var(--crust-brown));
+            position: relative;
+            margin: 0 15px;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .dashboard-crust::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: var(--cheese-yellow);
+            border-radius: 50%;
+        }
+        
+        /* New Styles for Added Features */
+        .warning-message {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .success-message {
+            background-color: #d1edff;
+            color: #0c5460;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #bee5eb;
+        }
+        
+        .withdrawal-fee {
+            font-size: 14px;
+            color: #777;
+            margin-top: 5px;
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+            animation: glow 2s infinite alternate;
+        }
+        
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+            }
+        }
+        
+        .invite-section {
+            padding: 20px;
+            margin: 0 15px 20px;
+        }
+        
+        .invite-code {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .invite-link {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+            border: 2px dashed #dee2e6;
+            word-break: break-all;
+        }
+        
+        .team-section {
+            padding: 20px;
+            margin: 0 15px 20px;
+        }
+        
+        .team-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .team-stat {
+            text-align: center;
+            flex: 1;
+        }
+        
+        .team-stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--tomato-red);
+        }
+        
+        .team-stat-label {
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .orders-section {
+            padding: 20px;
+            margin: 0 15px 20px;
+        }
+        
+        .order-item {
+            background-color: var(--mozzarella-white);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .order-details {
+            flex: 1;
+        }
+        
+        .order-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .order-status {
+            color: var(--olive-green);
+            font-size: 14px;
+        }
+        
+        .order-amount {
+            font-weight: bold;
+            color: var(--tomato-red);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .pizza-container, .dashboard-container {
+                border-radius: 15px;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .pizza-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            .pizza-logo {
+                font-size: 24px;
+            }
+            
+            .banner-slider {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Section -->
+    <section id="auth-section">
+        <div class="pizza-container">
+            <div class="pizza-decoration pizza-1"></div>
+            <div class="pizza-decoration pizza-2"></div>
+            
+            <div class="pizza-header">
+                <h1>Pizza 🍕</h1>
+                <p>Slice into your account</p>
+            </div>
+            
+            <div class="pizza-crust"></div>
+            
+            <div class="form-container">
+                <div class="message" id="message"></div>
+                
+                <div class="form-toggle">
+                    <div class="toggle-slider"></div>
+                    <div class="toggle-btn active" data-form="login">Login</div>
+                    <div class="toggle-btn" data-form="signup">Sign Up</div>
+                </div>
+                
+                <form id="login-form" class="form active">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" class="form-control" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <div class="form-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="#" class="forgot-password" id="forgot-password">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="login-btn">
+                        <span class="btn-text">Slice In</span>
+                    </button>
+                </form>
+                
+                <form id="signup-form" class="form">
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" class="form-control" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" class="form-control" placeholder="Create a password" required>
+                        <div class="password-strength">
+                            <div class="strength-meter" id="password-strength-meter"></div>
+                        </div>
+                        <div class="password-info">Use 8+ characters with a mix of letters, numbers & symbols</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                        <div id="password-match" class="password-info"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="referral">Referral Code <span style="color:#777; font-weight:normal">(Optional)</span></label>
+                        <input type="text" id="referral" class="form-control" placeholder="Enter referral code if you have one">
+                    </div>
+                    
+                    <button type="submit" class="submit-btn" id="signup-btn">
+                        <span class="btn-text">Get Your Slice</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard-section">
+        <div class="dashboard-container">
+            <!-- Header Section -->
+            <div class="header">
+                <div class="header-top">
+                    <div class="pizza-logo">
+                        <i class="fas fa-pizza-slice"></i>
+                        Pizza Palace
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <div class="action-btn" id="checkin-btn">Check-in</div>
+                    <div class="action-btn" id="rewards-btn">Rewards</div>
+                    <div class="action-btn" id="invite-btn">Invite</div>
+                    <div class="action-btn" id="team-btn">Team</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-crust"></div>
+            
+            <!-- Home Section -->
+            <div id="home-section" class="section active">
+                <!-- Banner Slider -->
+                <div class="banner-slider">
+                    <div class="slider-container">
+                        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                            <div class="slide-content">
+                                <div class="slide-title">Margherita Pizza</div>
+                                <div class="slide-description">Fresh tomatoes, mozzarella, and basil</div>
+                            </div>
+                        </div>
+                        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                            <div class="slide-content">
+                                <div class="slide-title">Pepperoni Feast</div>
+                                <div class="slide-description">Double pepperoni with extra cheese</div>
+                            </div>
+                        </div>
+                        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                            <div class="slide-content">
+                                <div class="slide-title">Family Deal</div>
+                                <div class="slide-description">2 large pizzas with sides and drinks</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-indicators">
+                        <div class="indicator active"></div>
+                        <div class="indicator"></div>
+                        <div class="indicator"></div>
+                    </div>
+                </div>
+                
+                <!-- Balance Section -->
+                <div class="balance-section">
+                    <div class="section-title">
+                        <i class="fas fa-wallet"></i>
+                        My Pizza Wallet
+                    </div>
+                    <div class="balance-cards">
+                        <div class="balance-card primary">
+                            <div class="balance-label">Current Balance</div>
+                            <div class="balance-value">R0.00</div>
+                        </div>
+                        <div class="balance-card">
+                            <div class="balance-label">Reward Points</div>
+                            <div class="balance-value">0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Menu Section -->
+                <div class="menu-section">
+                    <div class="section-title">
+                        <i class="fas fa-pizza-slice"></i>
+                        Today's Specials
+                    </div>
+                    <div class="menu-grid">
+                        <div class="menu-item">
+                            <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                                <div class="menu-badge">NEW</div>
+                            </div>
+                            <div class="menu-details">
+                                <div class="menu-name">Margherita Pizza</div>
+                                <div class="menu-price">R200</div>
+                                <div class="menu-earnings">Earn R320 (1 day)</div>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
+                                <div class="menu-badge">HOT</div>
+                            </div>
+                            <div class="menu-details">
+                                <div class="menu-name">Pepperoni Feast</div>
+                                <div class="menu-price">R300</div>
+                                <div class="menu-earnings">Earn R520 (1 day)</div>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="menu-details">
+                                <div class="menu-name">BBQ Chicken</div>
+                                <div class="menu-price">R450</div>
+                                <div class="menu-earnings">Earn R750 (1 day)</div>
+                            </div>
+                        </div>
+                        <div class="menu-item secret-animation">
+                            <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="menu-details">
+                                <div class="menu-name">Truffle Pizza</div>
+                                <div class="menu-price">R800</div>
+                                <div class="menu-earnings">Earn R1380 (1 day)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Investment Section -->
+                <div class="investment-section">
+                    <div class="section-title">
+                        <i class="fas fa-chart-line"></i>
+                        Investment Packages
+                    </div>
+                    <div class="investment-grid">
+                        <div class="investment-item investment-highlight">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Starter Package</div>
+                                <div class="investment-info">Earn R14 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R70</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Premium Package</div>
+                                <div class="investment-info">Earn R28 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R140</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Gold Package</div>
+                                <div class="investment-info">Earn R42 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R210</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">VIP Package</div>
+                                <div class="investment-info">Earn R140 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R700</div>
+                        </div>
+                        <!-- Additional packages -->
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Platinum Package</div>
+                                <div class="investment-info">Earn R280 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R1400</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Diamond Package</div>
+                                <div class="investment-info">Earn R420 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R2100</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Ultimate Package</div>
+                                <div class="investment-info">Earn R700 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R3500</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1542834369-f10ebf06d3e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Mega Package</div>
+                                <div class="investment-info">Earn R1400 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R7000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menu Section -->
+            <div id="menu-section" class="section">
+                <div class="investment-section">
+                    <div class="section-title">
+                        <i class="fas fa-pizza-slice"></i>
+                        All Investment Packages
+                    </div>
+                    <div class="investment-grid">
+                        <div class="investment-item investment-highlight">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Starter Package</div>
+                                <div class="investment-info">Earn R14 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R70</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Premium Package</div>
+                                <div class="investment-info">Earn R28 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R140</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Gold Package</div>
+                                <div class="investment-info">Earn R42 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R210</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">VIP Package</div>
+                                <div class="investment-info">Earn R140 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R700</div>
+                        </div>
+                        <!-- Additional packages -->
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Platinum Package</div>
+                                <div class="investment-info">Earn R280 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R1400</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Diamond Package</div>
+                                <div class="investment-info">Earn R420 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R2100</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Ultimate Package</div>
+                                <div class="investment-info">Earn R700 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R3500</div>
+                        </div>
+                        <div class="investment-item">
+                            <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1542834369-f10ebf06d3e0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="investment-details">
+                                <div class="investment-name">Mega Package</div>
+                                <div class="investment-info">Earn R1400 daily for 32 days</div>
+                            </div>
+                            <div class="investment-amount">R7000</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="menu-section">
+                    <div class="section-title">
+                        <i class="fas fa-utensils"></i>
+                        All Menu Items
+                    </div>
+                    <div class="menu-grid">
+                        <div class="menu-item">
+                            <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="menu-details">
+                                <div class="menu-name">Margherita Pizza</div>
+                                <div class="menu-price">R200</div>
+                                <div class="menu-earnings">Earn R320 (1 day)</div>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="menu-details">
+                                <div class="menu-name">Pepperoni Feast</div>
+                                <div class="menu-price">R300</div>
+                                <div class="menu-earnings">Earn R520 (1 day)</div>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="menu-details">
+                                <div class="menu-name">BBQ Chicken</div>
+                                <div class="menu-price">R450</div>
+                                <div class="menu-earnings">Earn R750 (1 day)</div>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
+                            <div class="menu-details">
+                                <div class="menu-name">Truffle Pizza</div>
+                                <div class="menu-price">R800</div>
+                                <div class="menu-earnings">Earn R1380 (1 day)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- My Pizza Section -->
+            <div id="mypizza-section" class="section">
+                <div class="profile-card">
+                    <div class="profile-avatar" id="profile-avatar">JD</div>
+                    <div class="profile-name" id="profile-name">John Doe</div>
+                    <div class="profile-email" id="profile-email">john.doe@example.com</div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">R0.00</div>
+                            <div class="stat-label">Current Balance</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Reward Points</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Active Investments</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">R0.00</div>
+                            <div class="stat-label">Total Earnings</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wallet Section -->
+                <div class="balance-section">
+                    <div class="section-title">
+                        <i class="fas fa-wallet"></i>
+                        My Wallets
+                    </div>
+                    <div class="wallet-grid">
+                        <div class="wallet-card primary">
+                            <div class="wallet-icon">💰</div>
+                            <div class="wallet-value">R0.00</div>
+                            <div class="wallet-label">Recharge Wallet</div>
+                        </div>
+                        <div class="wallet-card">
+                            <div class="wallet-icon">💳</div>
+                            <div class="wallet-value">R0.00</div>
+                            <div class="wallet-label">Income Wallet</div>
+                        </div>
+                        <div class="wallet-card">
+                            <div class="wallet-icon">📊</div>
+                            <div class="wallet-value">R0.00</div>
+                            <div class="wallet-label">Commission</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="balance-section">
+                    <div class="section-title">
+                        <i class="fas fa-bolt"></i>
+                        Quick Actions
+                    </div>
+                    <div class="action-grid">
+                        <div class="action-card" id="deposit-btn">
+                            <div class="action-icon">⬆️</div>
+                            <div class="action-label">Deposit</div>
+                        </div>
+                        <div class="action-card" id="withdraw-btn">
+                            <div class="action-icon">⬇️</div>
+                            <div class="action-label">Withdraw</div>
+                        </div>
+                        <div class="action-card" id="transfer-btn">
+                            <div class="action-icon">🔄</div>
+                            <div class="action-label">Transfer</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Settings Section -->
+                <div class="balance-section">
+                    <div class="section-title">
+                        <i class="fas fa-cog"></i>
+                        Account Settings
+                    </div>
+                    <div class="settings-grid">
+                        <div class="settings-item" id="bank-btn">
+                            <div class="settings-details">
+                                <div class="settings-icon">🏦</div>
+                                <div class="settings-name">Bind Bank Account</div>
+                            </div>
+                            <div class="settings-arrow">›</div>
+                        </div>
+                        <div class="settings-item" id="password-btn">
+                            <div class="settings-details">
+                                <div class="settings-icon">🔒</div>
+                                <div class="settings-name">Change Password</div>
+                            </div>
+                            <div class="settings-arrow">›</div>
+                        </div>
+                        <div class="settings-item" id="support-btn">
+                            <div class="settings-details">
+                                <div class="settings-icon">📞</div>
+                                <div class="settings-name">Customer Service</div>
+                            </div>
+                            <div class="settings-arrow">›</div>
+                        </div>
+                        <div class="settings-item" id="records-btn">
+                            <div class="settings-details">
+                                <div class="settings-icon">📋</div>
+                                <div class="settings-name">Transaction Records</div>
+                            </div>
+                            <div class="settings-arrow">›</div>
+                        </div>
+                        <div class="settings-item" id="orders-btn">
+                            <div class="settings-details">
+                                <div class="settings-icon">📦</div>
+                                <div class="settings-name">My Orders</div>
+                            </div>
+                            <div class="settings-arrow">›</div>
+                        </div>
+                        <div class="settings-item" id="logout-btn">
+                            <div class="settings-details">
+                                <div class="settings-icon">🚪</div>
+                                <div class="settings-name">Log Out</div>
+                            </div>
+                            <div class="settings-arrow">›</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Orders Section -->
+            <div id="orders-section" class="section">
+                <div class="orders-section">
+                    <div class="section-title">
+                        <i class="fas fa-shopping-bag"></i>
+                        My Orders
+                    </div>
+                    <div id="no-orders-message">
+                        <p style="text-align: center; padding: 20px; color: #777;">No active orders</p>
+                    </div>
+                    <div id="orders-list" style="display: none;">
+                        <!-- Orders will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Section -->
+            <div id="team-section" class="section">
+                <div class="team-section">
+                    <div class="section-title">
+                        <i class="fas fa-users"></i>
+                        My Team
+                    </div>
+                    <div class="team-stats">
+                        <div class="team-stat">
+                            <div class="team-stat-value" id="active-members">0</div>
+                            <div class="team-stat-label">Active Members</div>
+                        </div>
+                        <div class="team-stat">
+                            <div class="team-stat-value" id="unactivated-members">0</div>
+                            <div class="team-stat-label">Unactivated Members</div>
+                        </div>
+                        <div class="team-stat">
+                            <div class="team-stat-value" id="total-commission">R0</div>
+                            <div class="team-stat-label">Total Commission</div>
+                        </div>
+                    </div>
+                    <div id="no-team-message">
+                        <p style="text-align: center; padding: 20px; color: #777;">No team members yet</p>
+                    </div>
+                    <div id="team-list" style="display: none;">
+                        <!-- Team members will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Invite Section -->
+            <div id="invite-section" class="section">
+                <div class="invite-section">
+                    <div class="section-title">
+                        <i class="fas fa-user-plus"></i>
+                        Invite Friends
+                    </div>
+                    <div class="invite-code">
+                        <h3>Your Invitation Code</h3>
+                        <p id="invitation-code" style="font-size: 24px; font-weight: bold; color: var(--tomato-red);">PIZZA123ABC</p>
+                    </div>
+                    <div class="invite-link">
+                        <h3>Your Invitation Link</h3>
+                        <p id="invitation-link" style="font-size: 14px; color: var(--text-dark);">pizza-rollout.vercel.app/?ref=PIZZA123ABC</p>
+                    </div>
+                    <div class="balance-section">
+                        <div class="section-title">
+                            <i class="fas fa-gift"></i>
+                            Invitation Rewards
+                        </div>
+                        <p style="margin-bottom: 15px;">Earn R22 commission for each active member you invite!</p>
+                        <div class="action-grid">
+                            <div class="action-card" id="share-whatsapp">
+                                <div class="action-icon"><i class="fab fa-whatsapp"></i></div>
+                                <div class="action-label">Share on WhatsApp</div>
+                            </div>
+                            <div class="action-card" id="share-facebook">
+                                <div class="action-icon"><i class="fab fa-facebook"></i></div>
+                                <div class="action-label">Share on Facebook</div>
+                            </div>
+                            <div class="action-card" id="copy-link">
+                                <div class="action-icon"><i class="fas fa-copy"></i></div>
+                                <div class="action-label">Copy Link</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="bottom-nav">
+                <div class="nav-item active" data-target="home-section">
+                    <div class="nav-icon"><i class="fas fa-home"></i></div>
+                    <div>Home</div>
+                </div>
+                <div class="nav-item" data-target="menu-section">
+                    <div class="nav-icon"><i class="fas fa-pizza-slice"></i></div>
+                    <div>Menu</div>
+                </div>
+                <div class="nav-item" data-target="mypizza-section">
+                    <div class="nav-icon"><i class="fas fa-user"></i></div>
+                    <div>My Pizza</div>
+                </div>
+                <div class="nav-item" data-target="orders-section">
+                    <div class="nav-icon"><i class="fas fa-shopping-bag"></i></div>
+                    <div>Orders</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Bank Account Binding -->
+        <div id="bank-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Bind Bank Account</div>
+                    <div class="close-modal">&times;</div>
+                </div>
+                <form id="bank-form">
+                    <div class="form-group">
+                        <label class="form-label" for="full-name">Full Name</label>
+                        <input type="text" id="full-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="bank-name">Bank Name</label>
+                        <input type="text" id="bank-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="account-number">Account Number</label>
+                        <input type="text" id="account-number" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Bind Account</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for Password Change -->
+        <div id="password-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Change Password</div>
+                    <div class="close-modal">&times;</div>
+                </div>
+                <form id="password-form">
+                    <div class="form-group">
+                        <label class="form-label" for="old-password">Old Password</label>
+                        <input type="password" id="old-password" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="new-password">New Password</label>
+                        <input type="password" id="new-password" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="confirm-password">Confirm New Password</label>
+                        <input type="password" id="confirm-password" class="form-input" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for Deposit -->
+        <div id="deposit-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Make a Deposit</div>
+                    <div class="close-modal">&times;</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="deposit-amount">Amount (Minimum R70)</label>
+                    <input type="number" id="deposit-amount" class="form-input" min="70" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="payment-channel">Payment Channel</label>
+                    <select id="payment-channel" class="form-select" required>
+                        <option value="">Select a channel</option>
+                        <option value="discovery">Discovery Bank</option>
+                        <option value="tymebank">Tymebank</option>
+                    </select>
+                </div>
+                <div id="payment-info" class="payment-info" style="display: none;">
+                    <!-- Payment details will be inserted here -->
+                </div>
+                <div class="btn-group">
+                    <button id="proceed-payment" class="btn btn-primary" style="display: none;">Proceed with Payment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Withdrawal -->
+        <div id="withdraw-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Withdraw Funds</div>
+                    <div class="close-modal">&times;</div>
+                </div>
+                <form id="withdraw-form">
+                    <div class="form-group">
+                        <label class="form-label" for="withdraw-amount">Amount (Minimum R50)</label>
+                        <input type="number" id="withdraw-amount" class="form-input" min="50" required>
+                        <div class="withdrawal-fee">Withdrawal fee: 15%</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="withdraw-wallet">From Wallet</label>
+                        <select id="withdraw-wallet" class="form-select" required>
+                            <option value="">Select wallet</option>
+                            <option value="income">Income Wallet</option>
+                            <option value="commission">Commission Wallet</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Withdraw</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for Payment Confirmation -->
+        <div id="payment-confirm-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Payment Confirmation</div>
+                    <div class="close-modal">&times;</div>
+                </div>
+                <div class="warning-message">
+                    <strong>Note:</strong> Please pay using immediate payment
+                </div>
+                <p>Have you completed the payment?</p>
+                <div class="btn-group">
+                    <button id="payment-yes" class="btn btn-primary">Yes, I've Paid</button>
+                    <button id="payment-no" class="btn btn-secondary">No, Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Payment Warning -->
+        <div id="payment-warning-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">⚠️ Warning</div>
+                    <div class="close-modal">&times;</div>
+                </div>
+                <div class="warning-message">
+                    <strong>Warning:</strong> If you click yes and you didn't pay, your account will be banned 🚫
+                </div>
+                <p>Are you sure you have completed the payment?</p>
+                <div class="btn-group">
+                    <button id="payment-confirm-yes" class="btn btn-primary">Yes, I'm Sure</button>
+                    <button id="payment-confirm-no" class="btn btn-secondary">No, Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Countdown -->
+        <div id="countdown-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Processing Payment</div>
+                </div>
+                <p>Your payment is being processed. Please wait...</p>
+                <div class="countdown" id="countdown-timer">5:00</div>
+            </div>
+        </div>
+
+        <!-- Modal for Investment Confirmation -->
+        <div id="investment-confirm-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Confirm Investment</div>
+                    <div class="close-modal">&times;</div>
+                </div>
+                <p id="investment-confirm-text">Are you sure you want to invest in this package?</p>
+                <div class="btn-group">
+                    <button id="investment-yes" class="btn btn-primary">Yes, Invest</button>
+                    <button id="investment-no" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Firebase Authentication State Listener
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication state
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    // User is signed in
+                    showDashboard(user);
+                } else {
+                    // User is signed out
+                    showAuth();
+                }
+            });
+
+            // Initialize authentication functionality
+            initAuth();
+            
+            // Initialize dashboard functionality (will be called when user logs in)
+            function initDashboard() {
+                // Banner Slider Functionality
+                const sliderContainer = document.querySelector('.slider-container');
+                const slides = document.querySelectorAll('.slide');
+                const indicators = document.querySelectorAll('.indicator');
+                let currentSlide = 0;
+                const slideCount = slides.length;
+                
+                // Set up slider indicators
+                indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => {
+                        currentSlide = index;
+                        updateSlider();
+                    });
+                });
+                
+                // Auto slide every 5 seconds
+                setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slideCount;
+                    updateSlider();
+                }, 5000);
+                
+                function updateSlider() {
+                    // Update slider position
+                    sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+                    
+                    // Update active indicator
+                    indicators.forEach((indicator, index) => {
+                        if (index === currentSlide) {
+                            indicator.classList.add('active');
+                        } else {
+                            indicator.classList.remove('active');
+                        }
+                    });
+                }
+                
+                // Add hover effects to menu items
+                const menuItems = document.querySelectorAll('.menu-item');
+                menuItems.forEach(item => {
+                    item.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-5px)';
+                        this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+                    });
+                    
+                    item.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0)';
+                        this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.05)';
+                    });
+                });
+                
+                // Bottom navigation functionality
+                const navItems = document.querySelectorAll('.nav-item');
+                navItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const targetId = this.getAttribute('data-target');
+                        
+                        // Update active nav item
+                        navItems.forEach(nav => nav.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Show target section
+                        document.querySelectorAll('.section').forEach(section => {
+                            section.classList.remove('active');
+                        });
+                        document.getElementById(targetId).classList.add('active');
+                    });
+                });
+                
+                // Header action buttons
+                document.getElementById('checkin-btn').addEventListener('click', function() {
+                    handleCheckin();
+                });
+                
+                document.getElementById('rewards-btn').addEventListener('click', function() {
+                    exchangeRewardPoints();
+                });
+                
+                document.getElementById('invite-btn').addEventListener('click', function() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById('invite-section').classList.add('active');
+                    
+                    // Update nav
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                });
+                
+                document.getElementById('team-btn').addEventListener('click', function() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById('team-section').classList.add('active');
+                    
+                    // Update nav
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                });
+                
+                // Secret animation for the special item
+                const secretItem = document.querySelector('.secret-animation');
+                secretItem.addEventListener('click', function() {
+                    alert("You found the secret pizza! Enjoy 10% off your next order with code: SECRET10");
+                });
+                
+                // Investment package click functionality
+                const investmentItems = document.querySelectorAll('.investment-item');
+                investmentItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const investmentName = this.querySelector('.investment-name').textContent;
+                        const investmentAmount = parseFloat(this.querySelector('.investment-amount').textContent.replace('R', ''));
+                        
+                        // Check if user has enough balance
+                        if (userData.rechargeBalance < investmentAmount) {
+                            alert(`Insufficient balance! You need R${investmentAmount} in your Recharge Wallet to invest in ${investmentName}`);
+                            return;
+                        }
+                        
+                        // Show confirmation modal
+                        document.getElementById('investment-confirm-text').textContent = `Are you sure you want to invest R${investmentAmount} in ${investmentName}?`;
+                        document.getElementById('investment-confirm-modal').style.display = 'flex';
+                        
+                        // Store investment details for confirmation
+                        window.currentInvestment = {
+                            name: investmentName,
+                            amount: investmentAmount,
+                            element: this
+                        };
+                    });
+                });
+                
+                // Menu item investment functionality
+                const menuInvestmentItems = document.querySelectorAll('.menu-item');
+                menuInvestmentItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        const menuName = this.querySelector('.menu-name').textContent;
+                        const menuPrice = parseFloat(this.querySelector('.menu-price').textContent.replace('R', ''));
+                        
+                        // Check if user has enough balance
+                        if (userData.rechargeBalance < menuPrice) {
+                            alert(`Insufficient balance! You need R${menuPrice} in your Recharge Wallet to invest in ${menuName}`);
+                            return;
+                        }
+                        
+                        // Show confirmation modal
+                        document.getElementById('investment-confirm-text').textContent = `Are you sure you want to invest R${menuPrice} in ${menuName}?`;
+                        document.getElementById('investment-confirm-modal').style.display = 'flex';
+                        
+                        // Store investment details for confirmation
+                        window.currentInvestment = {
+                            name: menuName,
+                            amount: menuPrice,
+                            element: this,
+                            isMenu: true
+                        };
+                    });
+                });
+                
+                // Investment confirmation
+                document.getElementById('investment-yes').addEventListener('click', function() {
+                    const investment = window.currentInvestment;
+                    
+                    // Deduct amount from recharge balance
+                    userData.rechargeBalance -= investment.amount;
+                    
+                    // Add to active investments
+                    userData.activeInvestments++;
+                    userData.hasInvested = true;
+                    
+                    // Create order
+                    const orderId = 'ORD' + Date.now();
+                    const order = {
+                        id: orderId,
+                        name: investment.name,
+                        amount: investment.amount,
+                        date: new Date().toLocaleDateString(),
+                        status: 'Active',
+                        type: investment.isMenu ? 'Menu' : 'Package'
+                    };
+                    
+                    userData.orders.push(order);
+                    
+                    // Update UI
+                    updateUI();
+                    
+                    // Show success message
+                    alert(`Invested successfully in ${investment.name}!`);
+                    
+                    // Close modal
+                    document.getElementById('investment-confirm-modal').style.display = 'none';
+                    
+                    // Save data
+                    saveUserData();
+                });
+                
+                document.getElementById('investment-no').addEventListener('click', function() {
+                    document.getElementById('investment-confirm-modal').style.display = 'none';
+                });
+                
+                // Modal functionality
+                const modals = document.querySelectorAll('.modal');
+                const closeButtons = document.querySelectorAll('.close-modal');
+                
+                // Close modal when clicking X
+                closeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        this.closest('.modal').style.display = 'none';
+                    });
+                });
+                
+                // Close modal when clicking outside
+                modals.forEach(modal => {
+                    modal.addEventListener('click', function(e) {
+                        if (e.target === this) {
+                            this.style.display = 'none';
+                        }
+                    });
+                });
+                
+                // Bank Account Binding
+                document.getElementById('bank-btn').addEventListener('click', function() {
+                    document.getElementById('bank-modal').style.display = 'flex';
+                });
+                
+                document.getElementById('bank-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const fullName = document.getElementById('full-name').value;
+                    const bankName = document.getElementById('bank-name').value;
+                    const accountNumber = document.getElementById('account-number').value;
+                    
+                    // In a real app, you would send this data to a server
+                    alert(`Bank account binding successful!\n\nFull Name: ${fullName}\nBank Name: ${bankName}\nAccount Number: ${accountNumber}`);
+                    document.getElementById('bank-modal').style.display = 'none';
+                    this.reset();
+                });
+                
+                // Change Password
+                document.getElementById('password-btn').addEventListener('click', function() {
+                    document.getElementById('password-modal').style.display = 'flex';
+                });
+                
+                document.getElementById('password-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const oldPassword = document.getElementById('old-password').value;
+                    const newPassword = document.getElementById('new-password').value;
+                    const confirmPassword = document.getElementById('confirm-password').value;
+                    
+                    if (newPassword !== confirmPassword) {
+                        alert('New passwords do not match!');
+                        return;
+                    }
+                    
+                    // In a real app, you would verify old password and update to new password
+                    alert('Password changed successfully!');
+                    document.getElementById('password-modal').style.display = 'none';
+                    this.reset();
+                });
+                
+                // Customer Service
+                document.getElementById('support-btn').addEventListener('click', function() {
+                    window.open('https://wa.me/27631287462', '_blank');
+                });
+                
+                // Transaction Records
+                document.getElementById('records-btn').addEventListener('click', function() {
+                    alert('Detailed transaction records would appear here.');
+                });
+                
+                // Orders
+                document.getElementById('orders-btn').addEventListener('click', function() {
+                    document.querySelectorAll('.section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById('orders-section').classList.add('active');
+                    
+                    // Update nav
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    document.querySelector('[data-target="orders-section"]').classList.add('active');
+                    
+                    // Update orders list
+                    updateOrdersList();
+                });
+                
+                // Logout
+                document.getElementById('logout-btn').addEventListener('click', function() {
+                    if(confirm('Are you sure you want to log out?')) {
+                        signOut(auth).then(() => {
+                            // Sign-out successful.
+                            alert('You have been logged out successfully.');
+                            showAuth();
+                        }).catch((error) => {
+                            // An error happened.
+                            alert('Error logging out: ' + error.message);
+                        });
+                    }
+                });
+                
+                // Deposit functionality
+                document.getElementById('deposit-btn').addEventListener('click', function() {
+                    document.getElementById('deposit-modal').style.display = 'flex';
+                });
+                
+                // Show payment details when channel is selected
+                document.getElementById('payment-channel').addEventListener('change', function() {
+                    const channel = this.value;
+                    const paymentInfo = document.getElementById('payment-info');
+                    const proceedBtn = document.getElementById('proceed-payment');
+                    
+                    if (channel) {
+                        let details = '';
+                        if (channel === 'discovery') {
+                            details = `
+                                <p><strong>Discovery Bank</strong></p>
+                                <p>Beneficiary: Pizza</p>
+                                <p>Account Number: 18695378176</p>
+                                <p>Reference: Pizza${Math.floor(1000 + Math.random() * 9000)}</p>
+                            `;
+                        } else if (channel === 'tymebank') {
+                            details = `
+                                <p><strong>Tymebank</strong></p>
+                                <p>Beneficiary: Pizza</p>
+                                <p>Account Number: 51104524563</p>
+                                <p>Reference: Pizza${Math.floor(1000 + Math.random() * 9000)}</p>
+                            `;
+                        }
+                        
+                        paymentInfo.innerHTML = details;
+                        paymentInfo.style.display = 'block';
+                        proceedBtn.style.display = 'block';
+                    } else {
+                        paymentInfo.style.display = 'none';
+                        proceedBtn.style.display = 'none';
+                    }
+                });
+                
+                // Proceed with payment
+                document.getElementById('proceed-payment').addEventListener('click', function() {
+                    const amount = document.getElementById('deposit-amount').value;
+                    const channel = document.getElementById('payment-channel').value;
+                    
+                    if (!amount || amount < 70) {
+                        alert('Minimum deposit amount is R70');
+                        return;
+                    }
+                    
+                    if (!channel) {
+                        alert('Please select a payment channel');
+                        return;
+                    }
+                    
+                    document.getElementById('deposit-modal').style.display = 'none';
+                    document.getElementById('payment-confirm-modal').style.display = 'flex';
+                });
+                
+                // Payment confirmation
+                document.getElementById('payment-yes').addEventListener('click', function() {
+                    document.getElementById('payment-confirm-modal').style.display = 'none';
+                    document.getElementById('payment-warning-modal').style.display = 'flex';
+                });
+                
+                document.getElementById('payment-no').addEventListener('click', function() {
+                    document.getElementById('payment-confirm-modal').style.display = 'none';
+                    document.getElementById('deposit-modal').style.display = 'flex';
+                });
+                
+                // Payment warning confirmation
+                document.getElementById('payment-confirm-yes').addEventListener('click', function() {
+                    document.getElementById('payment-warning-modal').style.display = 'none';
+                    document.getElementById('countdown-modal').style.display = 'flex';
+                    
+                    // Start countdown
+                    let timeLeft = 300; // 5 minutes in seconds
+                    const countdownElement = document.getElementById('countdown-timer');
+                    
+                    const countdown = setInterval(function() {
+                        const minutes = Math.floor(timeLeft / 60);
+                        const seconds = timeLeft % 60;
+                        
+                        countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                        
+                        timeLeft--;
+                        
+                        if (timeLeft < 0) {
+                            clearInterval(countdown);
+                            document.getElementById('countdown-modal').style.display = 'none';
+                            
+                            // Update balance
+                            const amount = parseFloat(document.getElementById('deposit-amount').value);
+                            
+                            // Add to recharge balance
+                            userData.rechargeBalance += amount;
+                            
+                            // Add reward points (3 points for R70)
+                            userData.rewardPoints += Math.floor(amount / 70) * 3;
+                            
+                            alert(`Deposit of R${amount} has been successfully processed!`);
+                            
+                            // Update UI
+                            updateUI();
+                            
+                            // Reset form
+                            document.getElementById('deposit-amount').value = '';
+                            document.getElementById('payment-channel').value = '';
+                            document.getElementById('payment-info').style.display = 'none';
+                            document.getElementById('proceed-payment').style.display = 'none';
+                            
+                            // Save data
+                            saveUserData();
+                        }
+                    }, 1000);
+                });
+                
+                document.getElementById('payment-confirm-no').addEventListener('click', function() {
+                    document.getElementById('payment-warning-modal').style.display = 'none';
+                    document.getElementById('deposit-modal').style.display = 'flex';
+                });
+                
+                // Withdrawal functionality
+                document.getElementById('withdraw-btn').addEventListener('click', function() {
+                    // Check if user has invested
+                    if (!userData.hasInvested) {
+                        alert('You need to make an investment before you can withdraw funds.');
+                        return;
+                    }
+                    
+                    document.getElementById('withdraw-modal').style.display = 'flex';
+                });
+                
+                document.getElementById('withdraw-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const amount = parseFloat(document.getElementById('withdraw-amount').value);
+                    const wallet = document.getElementById('withdraw-wallet').value;
+                    
+                    if (!amount || amount < 50) {
+                        alert('Minimum withdrawal amount is R50');
+                        return;
+                    }
+                    
+                    if (!wallet) {
+                        alert('Please select a wallet');
+                        return;
+                    }
+                    
+                    // Check if user has enough balance in selected wallet
+                    let walletBalance = 0;
+                    if (wallet === 'income') {
+                        walletBalance = userData.incomeBalance;
+                    } else if (wallet === 'commission') {
+                        walletBalance = userData.commissionBalance;
+                    }
+                    
+                    if (amount > walletBalance) {
+                        alert(`Insufficient balance in ${wallet} wallet!`);
+                        return;
+                    }
+                    
+                    // Calculate withdrawal fee (15%)
+                    const fee = amount * 0.15;
+                    const netAmount = amount - fee;
+                    
+                    // Redirect to WhatsApp with withdrawal details
+                    const message = `Withdrawal Request:\nAmount: R${amount}\nFee: R${fee.toFixed(2)}\nNet Amount: R${netAmount.toFixed(2)}\nWallet: ${wallet}`;
+                    const whatsappUrl = `https://wa.me/0818535051?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                    
+                    // In a real app, you would process the withdrawal
+                    alert(`Withdrawal request of R${amount} from ${wallet} wallet has been submitted. You will receive R${netAmount.toFixed(2)} after fees.`);
+                    document.getElementById('withdraw-modal').style.display = 'none';
+                    this.reset();
+                });
+                
+                // Transfer functionality
+                document.getElementById('transfer-btn').addEventListener('click', function() {
+                    alert('Transfer between wallets functionality would open here.');
+                });
+                
+                // Invite section functionality
+                document.getElementById('invitation-code').textContent = userData.invitationCode;
+                document.getElementById('invitation-link').textContent = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
+                
+                document.getElementById('share-whatsapp').addEventListener('click', function() {
+                    const message = `Join me at Pizza Palace! Use my invitation code: ${userData.invitationCode} or click: pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
+                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                    window.open(whatsappUrl, '_blank');
+                });
+                
+                document.getElementById('share-facebook').addEventListener('click', function() {
+                    alert('Facebook sharing would be implemented here.');
+                });
+                
+                document.getElementById('copy-link').addEventListener('click', function() {
+                    const link = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
+                    navigator.clipboard.writeText(link).then(function() {
+                        alert('Invitation link copied to clipboard!');
+                    }, function(err) {
+                        alert('Failed to copy link: ' + err);
+                    });
+                });
+            }
+
+            // Initialize user data
+            let userData = {
+                rechargeBalance: 0,
+                incomeBalance: 0,
+                commissionBalance: 0,
+                rewardPoints: 0,
+                activeInvestments: 0,
+                totalEarnings: 0,
+                hasInvested: false,
+                orders: [],
+                team: {
+                    activeMembers: 0,
+                    unactivatedMembers: 0,
+                    totalCommission: 0
+                },
+                invitationCode: generateInvitationCode(),
+                lastCheckin: null
+            };
+            
+            // Load data from localStorage if available
+            if (localStorage.getItem('pizzaUserData')) {
+                userData = JSON.parse(localStorage.getItem('pizzaUserData'));
+            }
+            
+            function updateUI() {
+                // Update balances
+                document.querySelectorAll('.balance-value')[0].textContent = `R${userData.rechargeBalance.toFixed(2)}`;
+                document.querySelectorAll('.balance-value')[1].textContent = userData.rewardPoints;
+                
+                // Update wallet values
+                document.querySelectorAll('.wallet-value')[0].textContent = `R${userData.rechargeBalance.toFixed(2)}`;
+                document.querySelectorAll('.wallet-value')[1].textContent = `R${userData.incomeBalance.toFixed(2)}`;
+                document.querySelectorAll('.wallet-value')[2].textContent = `R${userData.commissionBalance.toFixed(2)}`;
+                
+                // Update stats
+                document.querySelectorAll('.stat-value')[0].textContent = `R${userData.rechargeBalance.toFixed(2)}`;
+                document.querySelectorAll('.stat-value')[1].textContent = userData.rewardPoints;
+                document.querySelectorAll('.stat-value')[2].textContent = userData.activeInvestments;
+                document.querySelectorAll('.stat-value')[3].textContent = `R${userData.totalEarnings.toFixed(2)}`;
+                
+                // Update team stats
+                document.getElementById('active-members').textContent = userData.team.activeMembers;
+                document.getElementById('unactivated-members').textContent = userData.team.unactivatedMembers;
+                document.getElementById('total-commission').textContent = `R${userData.team.totalCommission}`;
+                
+                // Add glow effect to deposit button if balance is low
+                const depositBtn = document.getElementById('deposit-btn');
+                if (userData.rechargeBalance < 70) {
+                    depositBtn.classList.add('glow-effect');
+                } else {
+                    depositBtn.classList.remove('glow-effect');
+                }
+            }
+            
+            function updateOrdersList() {
+                const ordersList = document.getElementById('orders-list');
+                const noOrdersMessage = document.getElementById('no-orders-message');
+                
+                if (userData.orders.length === 0) {
+                    ordersList.style.display = 'none';
+                    noOrdersMessage.style.display = 'block';
+                } else {
+                    ordersList.style.display = 'block';
+                    noOrdersMessage.style.display = 'none';
+                    
+                    // Clear existing orders
+                    ordersList.innerHTML = '';
+                    
+                    // Add orders
+                    userData.orders.forEach(order => {
+                        const orderElement = document.createElement('div');
+                        orderElement.className = 'order-item';
+                        orderElement.innerHTML = `
+                            <div class="order-details">
+                                <div class="order-name">${order.name}</div>
+                                <div class="order-status">${order.status}</div>
+                            </div>
+                            <div class="order-amount">R${order.amount}</div>
+                        `;
+                        ordersList.appendChild(orderElement);
+                    });
+                }
+            }
+            
+            function handleCheckin() {
+                const now = new Date();
+                const currentHour = now.getHours();
+                
+                // Check if it's between 10am and 11am
+                if (currentHour >= 10 && currentHour < 11) {
+                    // Check if user already checked in today
+                    const today = now.toDateString();
+                    if (userData.lastCheckin === today) {
+                        alert('You have already checked in today!');
+                        return;
+                    }
+                    
+                    // Generate random amount between R5 and R10
+                    const randomAmount = (Math.floor(Math.random() * 6) + 5);
+                    
+                    // Add to income wallet
+                    userData.incomeBalance += randomAmount;
+                    userData.lastCheckin = today;
+                    
+                    // Update UI
+                    updateUI();
+                    
+                    // Save data
+                    saveUserData();
+                    
+                    alert(`Check-in successful! You received R${randomAmount} in your Income Wallet.`);
+                } else {
+                    alert('Check-in is only available between 10am and 11am!');
+                }
+            }
+            
+            function exchangeRewardPoints() {
+                if (userData.rewardPoints < 3) {
+                    alert('You need at least 3 reward points to exchange!');
+                    return;
+                }
+                
+                // Calculate amount (1 point = R1)
+                const amount = userData.rewardPoints;
+                
+                // Add to income wallet
+                userData.incomeBalance += amount;
+                
+                // Reset reward points
+                userData.rewardPoints = 0;
+                
+                // Update UI
+                updateUI();
+                
+                // Save data
+                saveUserData();
+                
+                alert(`Successfully exchanged ${amount} reward points for R${amount} in your Income Wallet!`);
+            }
+            
+            function saveUserData() {
+                localStorage.setItem('pizzaUserData', JSON.stringify(userData));
+            }
+            
+            // Simulate daily income (for demo purposes)
+            setInterval(function() {
+                if (userData.orders.length > 0) {
+                    // Calculate daily income based on active orders
+                    let dailyIncome = 0;
+                    userData.orders.forEach(order => {
+                        if (order.status === 'Active') {
+                            // Calculate daily return (simplified for demo)
+                            dailyIncome += order.amount * 0.2; // 20% daily return
+                        }
+                    });
+                    
+                    if (dailyIncome > 0) {
+                        userData.incomeBalance += dailyIncome;
+                        userData.totalEarnings += dailyIncome;
+                        
+                        // Update UI
+                        updateUI();
+                        
+                        // Save data
+                        saveUserData();
+                        
+                        // Show notification (in a real app)
+                        console.log(`Daily income: R${dailyIncome.toFixed(2)} added to your Income Wallet`);
+                    }
+                }
+            }, 30000); // Check every 30 seconds for demo (would be 24 hours in real app)
+            
+            function generateInvitationCode() {
+                const digits = Math.floor(100 + Math.random() * 900);
+                const letters = Array.from({length: 3}, () => 
+                    String.fromCharCode(65 + Math.floor(Math.random() * 26))
+                ).join('');
+                return `PIZZA${digits}${letters}`;
+            }
+            
+            function showDashboard(user) {
+                document.getElementById('auth-section').style.display = 'none';
+                document.getElementById('dashboard-section').style.display = 'block';
+                
+                // Update user profile information
+                const displayName = user.displayName || 'User';
+                const email = user.email;
+                const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase();
+                
+                document.getElementById('profile-avatar').textContent = initials;
+                document.getElementById('profile-name').textContent = displayName;
+                document.getElementById('profile-email').textContent = email;
+                
+                // Initialize dashboard functionality
+                initDashboard();
+                updateUI();
+            }
+            
+            function showAuth() {
+                document.getElementById('auth-section').style.display = 'flex';
+                document.getElementById('dashboard-section').style.display = 'none';
+            }
+        });
+
+        // Authentication functionality
+        function initAuth() {
+            // Form toggle functionality
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            const toggleSlider = document.querySelector('.toggle-slider');
+            const forms = document.querySelectorAll('.form');
+            
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const formType = this.getAttribute('data-form');
+                    
+                    // Update active button
+                    toggleBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Move slider
+                    if (formType === 'login') {
+                        toggleSlider.style.transform = 'translateX(0)';
+                    } else {
+                        toggleSlider.style.transform = 'translateX(100%)';
+                    }
+                    
+                    // Show correct form
+                    forms.forEach(form => {
+                        form.classList.remove('active');
+                        if (form.id === `${formType}-form`) {
+                            form.classList.add('active');
+                        }
+                    });
+                    
+                    // Clear any messages
+                    clearMessage();
+                });
+            });
+            
+            // Password strength indicator
+            const passwordInput = document.getElementById('signup-password');
+            const strengthMeter = document.getElementById('password-strength-meter');
+            
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                // Check password length
+                if (password.length >= 8) strength += 25;
+                
+                // Check for mixed case
+                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 25;
+                
+                // Check for numbers
+                if (password.match(/\d/)) strength += 25;
+                
+                // Check for special characters
+                if (password.match(/[^a-zA-Z\d]/)) strength += 25;
+                
+                // Update strength meter
+                strengthMeter.style.width = `${strength}%`;
+                
+                // Update color based on strength
+                if (strength < 50) {
+                    strengthMeter.style.background = '#e74c3c';
+                } else if (strength < 75) {
+                    strengthMeter.style.background = '#f39c12';
+                } else {
+                    strengthMeter.style.background = '#2ecc71';
+                }
+            });
+            
+            // Password confirmation check
+            const confirmPasswordInput = document.getElementById('confirm-password');
+            const passwordMatch = document.getElementById('password-match');
+            
+            confirmPasswordInput.addEventListener('input', function() {
+                const password = passwordInput.value;
+                const confirmPassword = this.value;
+                
+                if (confirmPassword === '') {
+                    passwordMatch.textContent = '';
+                } else if (password === confirmPassword) {
+                    passwordMatch.textContent = 'Passwords match!';
+                    passwordMatch.style.color = '#2ecc71';
+                } else {
+                    passwordMatch.textContent = 'Passwords do not match';
+                    passwordMatch.style.color = '#e74c3c';
+                }
+            });
+            
+            // Form submission
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const loginBtn = document.getElementById('login-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+                
+                loginUser(email, password);
+            });
+            
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                // Check if passwords match
+                if (password !== confirmPassword) {
+                    showMessage('Passwords do not match', 'error');
+                    return;
+                }
+                
+                // Check password strength
+                if (password.length < 8) {
+                    showMessage('Password must be at least 8 characters long', 'error');
+                    return;
+                }
+                
+                registerUser(email, password);
+            });
+            
+            // Forgot password functionality
+            document.getElementById('forgot-password').addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('login-email').value;
+                
+                if (!email) {
+                    showMessage('Please enter your email address first', 'error');
+                    return;
+                }
+                
+                resetPassword(email);
+            });
+            
+            // Input focus effects
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.querySelector('label').style.color = 'var(--tomato-red)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.querySelector('label').style.color = '';
+                });
+            });
+            
+            // Firebase authentication functions
+            function registerUser(email, password) {
+                setButtonLoading(signupBtn, true);
+                
+                createUserWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Signed up successfully
+                        const user = userCredential.user;
+                        showMessage('Account created successfully!', 'success');
+                        
+                        // Clear form
+                        signupForm.reset();
+                        strengthMeter.style.width = '0';
+                        passwordMatch.textContent = '';
+                        
+                        // Switch to login form after successful registration
+                        setTimeout(() => {
+                            toggleBtns[0].click();
+                        }, 1500);
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        let errorMessage = error.message;
+                        
+                        if (errorCode === 'auth/email-already-in-use') {
+                            errorMessage = 'This email is already registered. Please use a different email or login.';
+                        } else if (errorCode === 'auth/invalid-email') {
+                            errorMessage = 'Invalid email address.';
+                        } else if (errorCode === 'auth/weak-password') {
+                            errorMessage = 'Password is too weak. Please use a stronger password.';
+                        }
+                        
+                        showMessage(errorMessage, 'error');
+                    })
+                    .finally(() => {
+                        setButtonLoading(signupBtn, false);
+                    });
+            }
+            
+            function loginUser(email, password) {
+                setButtonLoading(loginBtn, true);
+                
+                signInWithEmailAndPassword(auth, email, password)
+                    .then((userCredential) => {
+                        // Signed in successfully
+                        const user = userCredential.user;
+                        showMessage('Login successful!', 'success');
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        let errorMessage = error.message;
+                        
+                        if (errorCode === 'auth/user-not-found') {
+                            errorMessage = 'No account found with this email. Please sign up first.';
+                        } else if (errorCode === 'auth/wrong-password') {
+                            errorMessage = 'Incorrect password. Please try again.';
+                        } else if (errorCode === 'auth/invalid-email') {
+                            errorMessage = 'Invalid email address.';
+                        } else if (errorCode === 'auth/user-disabled') {
+                            errorMessage = 'This account has been disabled.';
+                        }
+                        
+                        showMessage(errorMessage, 'error');
+                    })
+                    .finally(() => {
+                        setButtonLoading(loginBtn, false);
+                    });
+            }
+            
+            function resetPassword(email) {
+                sendPasswordResetEmail(auth, email)
+                    .then(() => {
+                        showMessage('Password reset email sent! Check your inbox.', 'success');
+                    })
+                    .catch((error) => {
+                        const errorCode = error.code;
+                        let errorMessage = error.message;
+                        
+                        if (errorCode === 'auth/user-not-found') {
+                            errorMessage = 'No account found with this email.';
+                        } else if (errorCode === 'auth/invalid-email') {
+                            errorMessage = 'Invalid email address.';
+                        }
+                        
+                        showMessage(errorMessage, 'error');
+                    });
+            }
+            
+            // Helper functions
+            function showMessage(message, type) {
+                const messageEl = document.getElementById('message');
+                messageEl.textContent = message;
+                messageEl.className = `message ${type}`;
+                messageEl.style.display = 'block';
+                
+                // Auto-hide success messages after 5 seconds
+                if (type === 'success') {
+                    setTimeout(() => {
+                        messageEl.style.display = 'none';
+                    }, 5000);
+                }
+            }
+            
+            function clearMessage() {
+                const messageEl = document.getElementById('message');
+                messageEl.style.display = 'none';
+            }
+            
+            function setButtonLoading(button, isLoading) {
+                const btnText = button.querySelector('.btn-text');
+                
+                if (isLoading) {
+                    button.disabled = true;
+                    btnText.textContent = 'Processing...';
+                    button.insertAdjacentHTML('afterbegin', '<div class="loading"></div>');
+                } else {
+                    button.disabled = false;
+                    const loadingSpinner = button.querySelector('.loading');
+                    if (loadingSpinner) {
+                        loadingSpinner.remove();
+                    }
+                    
+                    if (button.id === 'login-btn') {
+                        btnText.textContent = 'Slice In';
+                    } else {
+                        btnText.textContent = 'Get Your Slice';
+                        }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
