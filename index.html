@@ -53,30 +53,31 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         :root {
-            --tomato-red: #e74c3c;
-            --tomato-light: #ff6b6b;
-            --cheese-yellow: #f1c40f;
-            --cheese-light: #f7dc6f;
-            --crust-brown: #8b4513;
-            --crust-light: #a0522d;
-            --olive-green: #2ecc71;
-            --pepperoni-red: #c0392b;
-            --mozzarella-white: #f9f9f9;
-            --bg-color: #f9f9f9;
-            --text-dark: #333;
-            --text-light: #fff;
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            --primary: #E63946;
+            --primary-light: #FF6B6B;
+            --secondary: #F4A261;
+            --secondary-light: #FFB347;
+            --accent: #2A9D8F;
+            --dark: #264653;
+            --light: #F1FAEE;
+            --white: #FFFFFF;
+            --gray: #8D99AE;
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --error: #F44336;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s ease;
         }
 
         body {
-            background: linear-gradient(135deg, #f9f9f9, #ffeaa7);
+            background: linear-gradient(135deg, #F1FAEE, #A8DADC);
             min-height: 100vh;
             padding: 20px;
+            color: var(--dark);
         }
 
         /* Auth Section Styles */
@@ -90,16 +91,16 @@
         .pizza-container {
             width: 100%;
             max-width: 420px;
-            background: white;
+            background: var(--white);
             border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             overflow: hidden;
             position: relative;
         }
 
         .pizza-header {
-            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
-            color: white;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
             text-align: center;
             padding: 30px 20px;
             position: relative;
@@ -119,19 +120,8 @@
 
         .pizza-crust {
             height: 8px;
-            background: linear-gradient(to right, var(--crust-brown), var(--crust-light), var(--crust-brown));
+            background: linear-gradient(to right, var(--secondary), var(--secondary-light), var(--secondary));
             position: relative;
-        }
-
-        .pizza-crust::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: 0;
-            right: 0;
-            height: 10px;
-            background: var(--cheese-yellow);
-            border-radius: 50%;
         }
 
         .form-container {
@@ -153,13 +143,13 @@
             padding: 12px;
             cursor: pointer;
             border-radius: 50px;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             font-weight: 600;
             z-index: 1;
         }
 
         .toggle-btn.active {
-            color: white;
+            color: var(--white);
         }
 
         .toggle-slider {
@@ -168,9 +158,9 @@
             left: 5px;
             width: calc(50% - 5px);
             height: calc(100% - 10px);
-            background: linear-gradient(to right, var(--tomato-red), var(--pepperoni-red));
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
             border-radius: 50px;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transition: var(--transition);
         }
 
         .form {
@@ -196,7 +186,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--text-dark);
+            color: var(--dark);
             transition: color 0.3s;
         }
 
@@ -206,15 +196,15 @@
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 16px;
-            transition: all 0.3s;
+            transition: var(--transition);
             background: #f9f9f9;
         }
 
         .form-control:focus {
-            border-color: var(--tomato-red);
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
             outline: none;
-            background: white;
+            background: var(--white);
         }
 
         .password-strength {
@@ -229,7 +219,7 @@
             height: 100%;
             width: 0;
             border-radius: 2px;
-            transition: all 0.4s ease;
+            transition: var(--transition);
         }
 
         .form-options {
@@ -249,35 +239,35 @@
         }
 
         .forgot-password {
-            color: var(--tomato-red);
+            color: var(--primary);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s;
         }
 
         .forgot-password:hover {
-            color: var(--pepperoni-red);
+            color: var(--primary-light);
         }
 
         .submit-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(to right, var(--tomato-red), var(--pepperoni-red));
-            color: white;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: var(--white);
             border: none;
             border-radius: 10px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.3);
             position: relative;
             overflow: hidden;
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+            box-shadow: 0 6px 20px rgba(230, 57, 70, 0.4);
         }
 
         .submit-btn:active {
@@ -324,8 +314,8 @@
         .pizza-1 {
             top: 10%;
             left: 5%;
-            background: radial-gradient(circle, var(--cheese-yellow) 40%, transparent 41%),
-                        radial-gradient(circle, var(--tomato-red) 30%, transparent 31%);
+            background: radial-gradient(circle, var(--secondary) 40%, transparent 41%),
+                        radial-gradient(circle, var(--primary) 30%, transparent 31%);
             background-size: 20px 20px;
             border-radius: 50%;
         }
@@ -333,15 +323,15 @@
         .pizza-2 {
             bottom: 10%;
             right: 5%;
-            background: radial-gradient(circle, var(--cheese-yellow) 40%, transparent 41%),
-                        radial-gradient(circle, var(--olive-green) 25%, transparent 26%);
+            background: radial-gradient(circle, var(--secondary) 40%, transparent 41%),
+                        radial-gradient(circle, var(--accent) 25%, transparent 26%);
             background-size: 20px 20px;
             border-radius: 50%;
         }
 
         .password-info {
             font-size: 0.8rem;
-            color: #777;
+            color: var(--gray);
             margin-top: 5px;
         }
 
@@ -355,15 +345,15 @@
         }
 
         .success {
-            background-color: rgba(46, 204, 113, 0.2);
-            color: #27ae60;
-            border: 1px solid #2ecc71;
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
         }
 
         .error {
-            background-color: rgba(231, 76, 60, 0.2);
-            color: #c0392b;
-            border: 1px solid #e74c3c;
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--error);
+            border: 1px solid var(--error);
         }
 
         .loading {
@@ -389,7 +379,7 @@
         .dashboard-container {
             max-width: 480px;
             margin: 0 auto;
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             min-height: 90vh;
             border-radius: 20px;
             box-shadow: var(--shadow);
@@ -400,8 +390,8 @@
         
         /* Header Styles */
         .header {
-            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
-            color: var(--text-light);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
             padding: 20px;
             position: relative;
             border-radius: 20px 20px 0 0;
@@ -416,7 +406,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><circle cx="50" cy="50" r="40" fill="%23f1c40f" /></svg>');
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" opacity="0.1"><circle cx="50" cy="50" r="40" fill="%23F4A261" /></svg>');
             background-size: 50px;
             z-index: 1;
         }
@@ -450,7 +440,7 @@
         }
         
         .action-btn {
-            color: var(--text-light);
+            color: var(--white);
             font-size: 14px;
             text-align: center;
             flex: 1;
@@ -490,7 +480,7 @@
             flex-direction: column;
             justify-content: flex-end;
             padding: 20px;
-            color: var(--text-light);
+            color: var(--white);
             position: relative;
         }
         
@@ -541,14 +531,14 @@
         }
         
         .indicator.active {
-            background-color: var(--cheese-yellow);
+            background-color: var(--secondary);
             transform: scale(1.2);
         }
         
         /* Balance Section */
         .balance-section {
             padding: 20px;
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 15px;
             margin: 0 15px 20px;
             box-shadow: var(--shadow);
@@ -563,14 +553,14 @@
             right: -10px;
             width: 80px;
             height: 80px;
-            background-color: var(--cheese-light);
+            background-color: var(--secondary-light);
             border-radius: 50%;
             opacity: 0.3;
         }
         
         .section-title {
             font-size: 18px;
-            color: var(--text-dark);
+            color: var(--dark);
             margin-bottom: 15px;
             font-weight: 600;
             display: flex;
@@ -579,7 +569,7 @@
         }
         
         .section-title i {
-            color: var(--tomato-red);
+            color: var(--primary);
         }
         
         .balance-cards {
@@ -589,7 +579,7 @@
         
         .balance-card {
             flex: 1;
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 12px;
             padding: 15px;
             text-align: center;
@@ -602,12 +592,12 @@
         .balance-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-            border-color: var(--tomato-red);
+            border-color: var(--primary);
         }
         
         .balance-card.primary {
-            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
-            color: var(--text-light);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
         }
         
         .balance-value {
@@ -634,7 +624,7 @@
         }
         
         .menu-item {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: var(--shadow);
@@ -659,8 +649,8 @@
             position: absolute;
             top: 10px;
             right: 10px;
-            background-color: var(--olive-green);
-            color: var(--text-light);
+            background-color: var(--accent);
+            color: var(--white);
             font-size: 10px;
             padding: 3px 8px;
             border-radius: 10px;
@@ -678,13 +668,13 @@
         }
         
         .menu-price {
-            color: var(--tomato-red);
+            color: var(--primary);
             font-weight: bold;
             font-size: 18px;
         }
         
         .menu-earnings {
-            color: var(--text-dark);
+            color: var(--dark);
             font-size: 14px;
             margin-top: 5px;
         }
@@ -702,7 +692,7 @@
         }
         
         .investment-item {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 12px;
             padding: 15px;
             box-shadow: var(--shadow);
@@ -732,14 +722,14 @@
         }
         
         .investment-info {
-            color: var(--text-dark);
+            color: var(--dark);
             font-size: 14px;
         }
         
         .investment-amount {
             font-weight: bold;
             font-size: 18px;
-            color: var(--tomato-red);
+            color: var(--primary);
             z-index: 2;
         }
         
@@ -762,7 +752,7 @@
         }
         
         .profile-card {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 15px;
             padding: 20px;
             box-shadow: var(--shadow);
@@ -779,7 +769,7 @@
             left: -20px;
             width: 80px;
             height: 80px;
-            background-color: var(--cheese-light);
+            background-color: var(--secondary-light);
             border-radius: 50%;
             opacity: 0.3;
         }
@@ -788,15 +778,15 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-light);
+            color: var(--white);
             font-weight: bold;
             font-size: 24px;
             margin: 0 auto 15px;
-            border: 3px solid var(--cheese-yellow);
+            border: 3px solid var(--secondary);
         }
         
         .profile-name {
@@ -806,7 +796,7 @@
         }
         
         .profile-email {
-            color: var(--text-dark);
+            color: var(--dark);
             margin-bottom: 15px;
         }
         
@@ -818,7 +808,7 @@
         }
         
         .stat-card {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 12px;
             padding: 15px;
             text-align: center;
@@ -839,7 +829,7 @@
         
         .stat-label {
             font-size: 14px;
-            color: var(--text-dark);
+            color: var(--dark);
         }
         
         .wallet-grid {
@@ -850,7 +840,7 @@
         }
         
         .wallet-card {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 12px;
             padding: 15px;
             box-shadow: var(--shadow);
@@ -865,8 +855,8 @@
         }
         
         .wallet-card.primary {
-            background: linear-gradient(135deg, var(--tomato-red), var(--pepperoni-red));
-            color: var(--text-light);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: var(--white);
         }
         
         .wallet-icon {
@@ -893,7 +883,7 @@
         }
         
         .action-card {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 12px;
             padding: 15px;
             box-shadow: var(--shadow);
@@ -910,7 +900,7 @@
         .action-icon {
             font-size: 24px;
             margin-bottom: 10px;
-            color: var(--tomato-red);
+            color: var(--primary);
         }
         
         .action-label {
@@ -926,7 +916,7 @@
         }
         
         .settings-item {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 12px;
             padding: 15px;
             box-shadow: var(--shadow);
@@ -950,7 +940,7 @@
         
         .settings-icon {
             font-size: 20px;
-            color: var(--tomato-red);
+            color: var(--primary);
         }
         
         .settings-name {
@@ -963,7 +953,7 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             display: flex;
             justify-content: space-around;
             padding: 15px 0;
@@ -979,7 +969,7 @@
             flex-direction: column;
             align-items: center;
             gap: 5px;
-            color: var(--text-dark);
+            color: var(--dark);
             font-size: 12px;
             transition: var(--transition);
             cursor: pointer;
@@ -988,8 +978,8 @@
         }
         
         .nav-item.active {
-            color: var(--tomato-red);
-            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--primary);
+            background-color: rgba(230, 57, 70, 0.1);
         }
         
         .nav-item:hover {
@@ -1024,7 +1014,7 @@
         }
         
         .modal-content {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 15px;
             padding: 25px;
             width: 90%;
@@ -1043,13 +1033,13 @@
         .modal-title {
             font-size: 20px;
             font-weight: bold;
-            color: var(--tomato-red);
+            color: var(--primary);
         }
         
         .close-modal {
             font-size: 24px;
             cursor: pointer;
-            color: var(--text-dark);
+            color: var(--dark);
         }
         
         .form-group {
@@ -1072,9 +1062,9 @@
         }
         
         .form-input:focus {
-            border-color: var(--tomato-red);
+            border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.2);
+            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
         }
         
         .form-select {
@@ -1099,17 +1089,17 @@
         }
         
         .btn-primary {
-            background-color: var(--tomato-red);
-            color: var(--text-light);
+            background-color: var(--primary);
+            color: var(--white);
         }
         
         .btn-primary:hover {
-            background-color: var(--pepperoni-red);
+            background-color: var(--primary-light);
         }
         
         .btn-secondary {
             background-color: #f1f1f1;
-            color: var(--text-dark);
+            color: var(--dark);
         }
         
         .btn-secondary:hover {
@@ -1133,7 +1123,7 @@
             text-align: center;
             font-size: 18px;
             font-weight: bold;
-            color: var(--tomato-red);
+            color: var(--primary);
             margin: 20px 0;
         }
         
@@ -1149,7 +1139,7 @@
         }
         
         .investment-highlight {
-            border: 2px solid var(--cheese-yellow);
+            border: 2px solid var(--secondary);
             position: relative;
         }
         
@@ -1158,8 +1148,8 @@
             position: absolute;
             top: -10px;
             right: 10px;
-            background-color: var(--cheese-yellow);
-            color: var(--text-dark);
+            background-color: var(--secondary);
+            color: var(--dark);
             font-size: 10px;
             padding: 2px 8px;
             border-radius: 10px;
@@ -1169,7 +1159,7 @@
         
         .dashboard-crust {
             height: 8px;
-            background: linear-gradient(to right, var(--crust-brown), var(--crust-light), var(--crust-brown));
+            background: linear-gradient(to right, var(--secondary), var(--secondary-light), var(--secondary));
             position: relative;
             margin: 0 15px;
             border-radius: 0 0 5px 5px;
@@ -1182,7 +1172,7 @@
             left: 0;
             right: 0;
             height: 10px;
-            background: var(--cheese-yellow);
+            background: var(--secondary);
             border-radius: 50%;
         }
         
@@ -1207,21 +1197,21 @@
         
         .withdrawal-fee {
             font-size: 14px;
-            color: #777;
+            color: var(--gray);
             margin-top: 5px;
         }
         
         .glow-effect {
-            box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+            box-shadow: 0 0 15px rgba(230, 57, 70, 0.5);
             animation: glow 2s infinite alternate;
         }
         
         @keyframes glow {
             from {
-                box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+                box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
             }
             to {
-                box-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+                box-shadow: 0 0 20px rgba(230, 57, 70, 0.8);
             }
         }
         
@@ -1268,12 +1258,12 @@
         .team-stat-value {
             font-size: 24px;
             font-weight: bold;
-            color: var(--tomato-red);
+            color: var(--primary);
         }
         
         .team-stat-label {
             font-size: 14px;
-            color: #777;
+            color: var(--gray);
         }
         
         .team-list {
@@ -1283,7 +1273,7 @@
         }
         
         .team-member {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 12px;
             padding: 15px;
             box-shadow: var(--shadow);
@@ -1306,16 +1296,16 @@
         }
         
         .member-status.active {
-            color: var(--olive-green);
+            color: var(--accent);
         }
         
         .member-status.unactivated {
-            color: var(--tomato-red);
+            color: var(--primary);
         }
         
         .member-commission {
             font-weight: bold;
-            color: var(--tomato-red);
+            color: var(--primary);
         }
         
         .orders-section {
@@ -1324,7 +1314,7 @@
         }
         
         .order-item {
-            background-color: var(--mozzarella-white);
+            background-color: var(--white);
             border-radius: 12px;
             padding: 15px;
             box-shadow: var(--shadow);
@@ -1348,16 +1338,104 @@
         }
         
         .order-status.pending {
-            color: #f39c12;
+            color: var(--warning);
         }
         
         .order-status.successful {
-            color: var(--olive-green);
+            color: var(--accent);
         }
         
         .order-amount {
             font-weight: bold;
-            color: var(--tomato-red);
+            color: var(--primary);
+        }
+        
+        /* WhatsApp Group Button */
+        .whatsapp-group-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+            z-index: 99;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .whatsapp-group-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(37, 211, 102, 0.7);
+        }
+        
+        .whatsapp-group-btn i {
+            color: white;
+            font-size: 32px;
+        }
+        
+        /* Processing Screen Styles */
+        .processing-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .processing-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .processing-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .processing-message {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 400px;
+            line-height: 1.5;
+        }
+        
+        .processing-countdown {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 30px;
+            border-radius: 10px;
+            min-width: 150px;
+        }
+        
+        .processing-note {
+            font-size: 14px;
+            margin-top: 20px;
+            opacity: 0.8;
+            max-width: 400px;
         }
         
         /* Responsive Design */
@@ -1385,10 +1463,50 @@
             .banner-slider {
                 height: 180px;
             }
+            
+            .whatsapp-group-btn {
+                bottom: 90px;
+                right: 15px;
+                width: 55px;
+                height: 55px;
+            }
+            
+            .whatsapp-group-btn i {
+                font-size: 28px;
+            }
+            
+            .processing-title {
+                font-size: 24px;
+            }
+            
+            .processing-message {
+                font-size: 16px;
+            }
+            
+            .processing-countdown {
+                font-size: 36px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- WhatsApp Group Button -->
+    <div class="whatsapp-group-btn" id="whatsapp-group-btn">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+
+    <!-- Processing Screen -->
+    <div class="processing-screen" id="processing-screen">
+        <div class="processing-icon">
+            <i class="fas fa-clock"></i>
+        </div>
+        <div class="processing-title">Processing Your Deposit</div>
+        <div class="processing-message">Please don't close this page. We are processing your payment.</div>
+        <div class="processing-countdown" id="processing-countdown">2:00</div>
+        <div class="processing-message">Manager is approving your deposit...</div>
+        <div class="processing-note">Once approved, funds will be automatically added to your Recharge Wallet.</div>
+    </div>
+
     <!-- Authentication Section -->
     <section id="auth-section">
         <div class="pizza-container">
@@ -1960,11 +2078,11 @@
                     </div>
                     <div class="invite-code">
                         <h3>Your Invitation Code</h3>
-                        <p id="invitation-code" style="font-size: 24px; font-weight: bold; color: var(--tomato-red);">PIZZA123ABC</p>
+                        <p id="invitation-code" style="font-size: 24px; font-weight: bold; color: var(--primary);">PIZZA123ABC</p>
                     </div>
                     <div class="invite-link">
                         <h3>Your Invitation Link</h3>
-                        <p id="invitation-link" style="font-size: 14px; color: var(--text-dark);">pizza-rollout.vercel.app/?ref=PIZZA123ABC</p>
+                        <p id="invitation-link" style="font-size: 14px; color: var(--dark);">pizza-rollout.vercel.app/?ref=PIZZA123ABC</p>
                     </div>
                     <div class="balance-section">
                         <div class="section-title">
@@ -2158,7 +2276,7 @@
                     <div class="modal-title">Processing Payment</div>
                 </div>
                 <p>Your payment is being processed. Please wait...</p>
-                <div class="countdown" id="countdown-timer">5:00</div>
+                <div class="countdown" id="countdown-timer">2:00</div>
             </div>
         </div>
 
@@ -2181,6 +2299,11 @@
     <script>
         // Firebase Authentication State Listener
         document.addEventListener('DOMContentLoaded', function() {
+            // WhatsApp Group Button
+            document.getElementById('whatsapp-group-btn').addEventListener('click', function() {
+                window.open('https://chat.whatsapp.com/EQZd2kHQPWLKTkOp9p5Vka?mode=hqrt1', '_blank');
+            });
+
             // Check for referral code in URL
             const urlParams = new URLSearchParams(window.location.search);
             const refCode = urlParams.get('ref');
@@ -2609,44 +2732,14 @@
                     // Save data
                     saveUserData();
                     
-                    // Start countdown in background (invisible to user)
-                    let timeLeft = 300; // 5 minutes in seconds
-                    
-                    const countdown = setInterval(function() {
-                        timeLeft--;
-                        
-                        if (timeLeft < 0) {
-                            clearInterval(countdown);
-                            
-                            // Update deposit status to successful
-                            const depositIndex = userData.transactions.findIndex(t => t.id === depositId);
-                            if (depositIndex !== -1) {
-                                userData.transactions[depositIndex].status = 'successful';
-                                
-                                // Add to recharge balance
-                                userData.rechargeBalance += amount;
-                                
-                                // Add reward points (3 points for R70)
-                                userData.rewardPoints += Math.floor(amount / 70) * 3;
-                                
-                                // Update UI
-                                updateUI();
-                                
-                                // Save data
-                                saveUserData();
-                                
-                                alert(`Deposit of R${amount} has been successfully processed!`);
-                            }
-                        }
-                    }, 1000);
+                    // Show processing screen with countdown
+                    showProcessingScreen(amount);
                     
                     // Reset form
                     document.getElementById('deposit-amount').value = '';
                     document.getElementById('payment-channel').value = '';
                     document.getElementById('payment-info').style.display = 'none';
                     document.getElementById('proceed-payment').style.display = 'none';
-                    
-                    alert('Your deposit is being processed. It will be added to your account shortly.');
                 });
                 
                 document.getElementById('payment-confirm-no').addEventListener('click', function() {
@@ -2715,10 +2808,10 @@
                 
                 // Invite section functionality
                 document.getElementById('invitation-code').textContent = userData.invitationCode;
-                document.getElementById('invitation-link').textContent = `${window.location.origin}${window.location.pathname}?ref=${userData.invitationCode}`;
+                document.getElementById('invitation-link').textContent = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
                 
                 document.getElementById('share-whatsapp').addEventListener('click', function() {
-                    const message = `Join me at Pizza Palace! Use my invitation code: ${userData.invitationCode} or click: ${window.location.origin}${window.location.pathname}?ref=${userData.invitationCode}`;
+                    const message = `Join me at Pizza Palace! Use my invitation code: ${userData.invitationCode} or click: pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
                     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
                     window.open(whatsappUrl, '_blank');
                 });
@@ -2728,7 +2821,7 @@
                 });
                 
                 document.getElementById('copy-link').addEventListener('click', function() {
-                    const link = `${window.location.origin}${window.location.pathname}?ref=${userData.invitationCode}`;
+                    const link = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
                     navigator.clipboard.writeText(link).then(function() {
                         alert('Invitation link copied to clipboard!');
                     }, function(err) {
@@ -2750,7 +2843,8 @@
                 team: {
                     activeMembers: 0,
                     unactivatedMembers: 0,
-                    totalCommission: 0
+                    totalCommission: 0,
+                    members: []
                 },
                 invitationCode: generateInvitationCode(),
                 lastCheckin: null,
@@ -2765,6 +2859,11 @@
                     if (docSnap.exists()) {
                         userData = { ...userData, ...docSnap.data() };
                         updateUI();
+                        
+                        // Load team members if any
+                        if (userData.team && userData.team.members && userData.team.members.length > 0) {
+                            loadTeamMembers();
+                        }
                     } else {
                         // Create new user document
                         saveUserData();
@@ -2801,6 +2900,55 @@
                     // Investment packages: R70 -> R14 (20% daily return)
                     return amount * 0.2;
                 }
+            }
+            
+            // Function to show processing screen with countdown
+            function showProcessingScreen(amount) {
+                const processingScreen = document.getElementById('processing-screen');
+                const countdownElement = document.getElementById('processing-countdown');
+                
+                // Show processing screen
+                processingScreen.style.display = 'flex';
+                
+                // Start countdown (2 minutes)
+                let timeLeft = 120; // 2 minutes in seconds
+                
+                const countdown = setInterval(function() {
+                    timeLeft--;
+                    
+                    // Update countdown display
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    
+                    if (timeLeft <= 0) {
+                        clearInterval(countdown);
+                        
+                        // IMMEDIATELY update deposit status to successful
+                        const depositIndex = userData.transactions.findIndex(t => t.status === 'pending');
+                        if (depositIndex !== -1) {
+                            userData.transactions[depositIndex].status = 'successful';
+                            
+                            // IMMEDIATELY add to recharge balance
+                            userData.rechargeBalance += amount;
+                            
+                            // IMMEDIATELY add reward points (3 points for R70)
+                            userData.rewardPoints += Math.floor(amount / 70) * 3;
+                            
+                            // Update UI immediately
+                            updateUI();
+                            
+                            // Save data immediately
+                            saveUserData();
+                            
+                            // Hide processing screen
+                            processingScreen.style.display = 'none';
+                            
+                            // Show success message immediately
+                            alert(`Deposit of R${amount} has been successfully processed! Funds added to your Recharge Wallet.`);
+                        }
+                    }
+                }, 1000);
             }
             
             function updateUI() {
@@ -2867,9 +3015,6 @@
                 const teamList = document.getElementById('team-list');
                 const noTeamMessage = document.getElementById('no-team-message');
                 
-                // In a real app, you would fetch team data from Firebase
-                // For now, we'll use the data from userData
-                
                 if (userData.team.activeMembers === 0 && userData.team.unactivatedMembers === 0) {
                     teamList.style.display = 'none';
                     noTeamMessage.style.display = 'block';
@@ -2880,34 +3025,70 @@
                     // Clear existing team members
                     teamList.innerHTML = '';
                     
-                    // Add team members (this is a simplified example)
-                    // In a real app, you would fetch actual team member data
-                    for (let i = 0; i < userData.team.activeMembers; i++) {
+                    // Add team members from userData
+                    userData.team.members.forEach(member => {
                         const memberElement = document.createElement('div');
                         memberElement.className = 'team-member';
                         memberElement.innerHTML = `
                             <div class="member-details">
-                                <div class="member-name">Active Member ${i+1}</div>
-                                <div class="member-status active">Active</div>
+                                <div class="member-name">${member.email}</div>
+                                <div class="member-status ${member.status}">${member.status === 'active' ? 'Active' : 'Unactivated'}</div>
                             </div>
-                            <div class="member-commission">R22</div>
+                            <div class="member-commission">R${member.commission || 0}</div>
                         `;
                         teamList.appendChild(memberElement);
-                    }
-                    
-                    for (let i = 0; i < userData.team.unactivatedMembers; i++) {
-                        const memberElement = document.createElement('div');
-                        memberElement.className = 'team-member';
-                        memberElement.innerHTML = `
-                            <div class="member-details">
-                                <div class="member-name">Unactivated Member ${i+1}</div>
-                                <div class="member-status unactivated">Unactivated</div>
-                            </div>
-                            <div class="member-commission">R0</div>
-                        `;
-                        teamList.appendChild(memberElement);
-                    }
+                    });
                 }
+            }
+            
+            // Function to load team members from referrals
+            function loadTeamMembers() {
+                if (!auth.currentUser) return;
+                
+                const referralsRef = collection(db, "referrals");
+                const q = query(referralsRef, where("inviterId", "==", auth.currentUser.uid));
+                
+                getDocs(q).then((querySnapshot) => {
+                    userData.team.members = [];
+                    userData.team.activeMembers = 0;
+                    userData.team.unactivatedMembers = 0;
+                    userData.team.totalCommission = 0;
+                    
+                    querySnapshot.forEach((doc) => {
+                        const referral = doc.data();
+                        
+                        // Get user data for the invitee
+                        const userDocRef = doc(db, "users", referral.inviteeId);
+                        getDoc(userDocRef).then((userDoc) => {
+                            if (userDoc.exists()) {
+                                const userData = userDoc.data();
+                                const member = {
+                                    email: userData.email || 'Unknown',
+                                    status: referral.status,
+                                    commission: referral.status === 'active' ? 22 : 0
+                                };
+                                
+                                userData.team.members.push(member);
+                                
+                                if (referral.status === 'active') {
+                                    userData.team.activeMembers++;
+                                    userData.team.totalCommission += 22;
+                                } else {
+                                    userData.team.unactivatedMembers++;
+                                }
+                                
+                                // Update UI
+                                updateUI();
+                                loadTeamData();
+                                
+                                // Save updated team data
+                                saveUserData();
+                            }
+                        });
+                    });
+                }).catch((error) => {
+                    console.error("Error loading team members:", error);
+                });
             }
             
             function handleCheckin() {
@@ -3080,12 +3261,20 @@
                         getDoc(inviterDocRef).then((inviterDoc) => {
                             if (inviterDoc.exists()) {
                                 const inviterData = inviterDoc.data();
-                                const team = inviterData.team || { activeMembers: 0, unactivatedMembers: 0, totalCommission: 0 };
+                                const team = inviterData.team || { activeMembers: 0, unactivatedMembers: 0, totalCommission: 0, members: [] };
                                 
                                 if (status === 'active') {
                                     team.activeMembers = (team.activeMembers || 0) + 1;
                                     team.unactivatedMembers = Math.max(0, (team.unactivatedMembers || 0) - 1);
                                     team.totalCommission = (team.totalCommission || 0) + 22; // R22 commission
+                                    
+                                    // Add the member to the team list
+                                    const member = {
+                                        email: userData.email || 'Unknown',
+                                        status: 'active',
+                                        commission: 22
+                                    };
+                                    team.members.push(member);
                                 }
                                 
                                 updateDoc(inviterDocRef, {
@@ -3274,7 +3463,7 @@
             const inputs = document.querySelectorAll('.form-control');
             inputs.forEach(input => {
                 input.addEventListener('focus', function() {
-                    this.parentElement.querySelector('label').style.color = 'var(--tomato-red)';
+                    this.parentElement.querySelector('label').style.color = 'var(--primary)';
                 });
                 
                 input.addEventListener('blur', function() {
