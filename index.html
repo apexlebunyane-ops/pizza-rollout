@@ -2297,31 +2297,38 @@
                 document.getElementById('investment-yes').addEventListener('click', function() {
                     const investment = window.currentInvestment;
                     
-                    // Deduct amount from recharge balance
+                    // IMMEDIATELY deduct amount from recharge balance
                     userData.rechargeBalance -= investment.amount;
                     
                     // Add to active investments
                     userData.activeInvestments++;
                     userData.hasInvested = true;
                     
-                    // Create order
+                    // Create order with proper daily income calculation
                     const orderId = 'ORD' + Date.now();
+                    const dailyIncome = calculateDailyIncome(investment.amount, investment.isMenu);
+                    const days = investment.isMenu ? 1 : 32;
+                    
                     const order = {
                         id: orderId,
                         name: investment.name,
                         amount: investment.amount,
-                        date: new Date().toLocaleDateString(),
+                        dailyIncome: dailyIncome,
+                        days: days,
+                        daysRemaining: days,
+                        startDate: new Date().toISOString(),
+                        lastPayoutDate: null, // Will be set when first payout happens
                         status: 'Active',
                         type: investment.isMenu ? 'Menu' : 'Package'
                     };
                     
                     userData.orders.push(order);
                     
-                    // Update UI
+                    // Update UI immediately
                     updateUI();
                     
                     // Show success message
-                    alert(`Invested successfully in ${investment.name}!`);
+                    alert(`Invested successfully in ${investment.name}! You will earn R${dailyIncome} daily.`);
                     
                     // Close modal
                     document.getElementById('investment-confirm-modal').style.display = 'none';
@@ -2659,6 +2666,21 @@
                 userData = JSON.parse(localStorage.getItem('pizzaUserData'));
             }
             
+            // Function to calculate daily income based on investment amount and type
+            function calculateDailyIncome(amount, isMenu) {
+                if (isMenu) {
+                    // Menu items: R200 -> R320 (60% return), R300 -> R520 (73% return), etc.
+                    if (amount === 200) return 320;
+                    if (amount === 300) return 520;
+                    if (amount === 450) return 750;
+                    if (amount === 800) return 1380;
+                    return amount * 1.6; // Default 60% return for menu items
+                } else {
+                    // Investment packages: R70 -> R14 (20% daily return)
+                    return amount * 0.2;
+                }
+            }
+            
             function updateUI() {
                 // Update balances
                 document.querySelectorAll('.balance-value')[0].textContent = `R${userData.rechargeBalance.toFixed(2)}`;
@@ -2710,7 +2732,7 @@
                         orderElement.innerHTML = `
                             <div class="order-details">
                                 <div class="order-name">${order.name}</div>
-                                <div class="order-status">${order.status}</div>
+                                <div class="order-status">${order.status} (${order.daysRemaining} days left)</div>
                             </div>
                             <div class="order-amount">R${order.amount}</div>
                         `;
@@ -2775,36 +2797,51 @@
                 alert(`Successfully exchanged ${amount} reward points for R${amount} in your Income Wallet!`);
             }
             
+            function processDailyIncome() {
+                const now = new Date();
+                const today = now.toDateString();
+                
+                userData.orders.forEach(order => {
+                    if (order.status === 'Active') {
+                        // For menu items, payout starts the next day
+                        // For packages, payout starts immediately but we'll simulate daily payouts
+                        const lastPayout = order.lastPayoutDate ? new Date(order.lastPayoutDate) : new Date(order.startDate);
+                        const daysSinceLastPayout = Math.floor((now - lastPayout) / (1000 * 60 * 60 * 24));
+                        
+                        if (daysSinceLastPayout >= 1) {
+                            // Add daily income to wallet
+                            userData.incomeBalance += order.dailyIncome;
+                            userData.totalEarnings += order.dailyIncome;
+                            
+                            // Update last payout date
+                            order.lastPayoutDate = now.toISOString();
+                            
+                            // Reduce days remaining
+                            order.daysRemaining--;
+                            
+                            // If no days remaining, mark as completed
+                            if (order.daysRemaining <= 0) {
+                                order.status = 'Completed';
+                                userData.activeInvestments--;
+                            }
+                            
+                            console.log(`Daily income: R${order.dailyIncome} added from ${order.name}`);
+                        }
+                    }
+                });
+                
+                // Update UI and save data
+                updateUI();
+                saveUserData();
+            }
+            
             function saveUserData() {
                 localStorage.setItem('pizzaUserData', JSON.stringify(userData));
             }
             
-            // Simulate daily income (for demo purposes)
+            // Simulate daily income (for demo purposes - would be daily in real app)
             setInterval(function() {
-                if (userData.orders.length > 0) {
-                    // Calculate daily income based on active orders
-                    let dailyIncome = 0;
-                    userData.orders.forEach(order => {
-                        if (order.status === 'Active') {
-                            // Calculate daily return (simplified for demo)
-                            dailyIncome += order.amount * 0.2; // 20% daily return
-                        }
-                    });
-                    
-                    if (dailyIncome > 0) {
-                        userData.incomeBalance += dailyIncome;
-                        userData.totalEarnings += dailyIncome;
-                        
-                        // Update UI
-                        updateUI();
-                        
-                        // Save data
-                        saveUserData();
-                        
-                        // Show notification (in a real app)
-                        console.log(`Daily income: R${dailyIncome.toFixed(2)} added to your Income Wallet`);
-                    }
-                }
+                processDailyIncome();
             }, 30000); // Check every 30 seconds for demo (would be 24 hours in real app)
             
             function generateInvitationCode() {
@@ -2831,6 +2868,9 @@
                 // Initialize dashboard functionality
                 initDashboard();
                 updateUI();
+                
+                // Process any pending daily income
+                processDailyIncome();
             }
             
             function showAuth() {
