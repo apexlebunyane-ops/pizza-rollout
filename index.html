@@ -9,6 +9,7 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, getDoc, updateDoc, collection, query, where, getDocs, onSnapshot, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
         
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -24,14 +25,27 @@
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
         
-        // Make auth available globally
+        // Make auth and db available globally
         window.auth = auth;
+        window.db = db;
         window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
         window.signInWithEmailAndPassword = signInWithEmailAndPassword;
         window.sendPasswordResetEmail = sendPasswordResetEmail;
         window.onAuthStateChanged = onAuthStateChanged;
         window.signOut = signOut;
+        window.getFirestore = getFirestore;
+        window.doc = doc;
+        window.setDoc = setDoc;
+        window.getDoc = getDoc;
+        window.updateDoc = updateDoc;
+        window.collection = collection;
+        window.query = query;
+        window.where = where;
+        window.getDocs = getDocs;
+        window.onSnapshot = onSnapshot;
+        window.addDoc = addDoc;
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -1115,10 +1129,6 @@
             font-size: 14px;
         }
         
-        .payment-info p {
-            margin-bottom: 8px;
-        }
-        
         .countdown {
             text-align: center;
             font-size: 18px;
@@ -1266,6 +1276,48 @@
             color: #777;
         }
         
+        .team-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .team-member {
+            background-color: var(--mozzarella-white);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .member-details {
+            flex: 1;
+        }
+        
+        .member-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .member-status {
+            font-size: 14px;
+        }
+        
+        .member-status.active {
+            color: var(--olive-green);
+        }
+        
+        .member-status.unactivated {
+            color: var(--tomato-red);
+        }
+        
+        .member-commission {
+            font-weight: bold;
+            color: var(--tomato-red);
+        }
+        
         .orders-section {
             padding: 20px;
             margin: 0 15px 20px;
@@ -1292,8 +1344,15 @@
         }
         
         .order-status {
-            color: var(--olive-green);
             font-size: 14px;
+        }
+        
+        .order-status.pending {
+            color: #f39c12;
+        }
+        
+        .order-status.successful {
+            color: var(--olive-green);
         }
         
         .order-amount {
@@ -1886,7 +1945,7 @@
                     <div id="no-team-message">
                         <p style="text-align: center; padding: 20px; color: #777;">No team members yet</p>
                     </div>
-                    <div id="team-list" style="display: none;">
+                    <div id="team-list" class="team-list" style="display: none;">
                         <!-- Team members will be dynamically added here -->
                     </div>
                 </div>
@@ -2122,6 +2181,15 @@
     <script>
         // Firebase Authentication State Listener
         document.addEventListener('DOMContentLoaded', function() {
+            // Check for referral code in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const refCode = urlParams.get('ref');
+            if (refCode) {
+                // Switch to signup form and set the referral code
+                document.querySelector('[data-form="signup"]').click();
+                document.getElementById('referral').value = refCode;
+            }
+
             // Check authentication state
             onAuthStateChanged(auth, (user) => {
                 if (user) {
@@ -2232,6 +2300,9 @@
                     
                     // Update nav
                     navItems.forEach(nav => nav.classList.remove('active'));
+                    
+                    // Load team data
+                    loadTeamData();
                 });
                 
                 // Secret animation for the special item
@@ -2333,8 +2404,13 @@
                     // Close modal
                     document.getElementById('investment-confirm-modal').style.display = 'none';
                     
-                    // Save data
+                    // Save data to Firebase
                     saveUserData();
+                    
+                    // Update team status if this user was referred
+                    if (userData.referredBy) {
+                        updateTeamMemberStatus(user.uid, 'active');
+                    }
                 });
                 
                 document.getElementById('investment-no').addEventListener('click', function() {
@@ -2510,48 +2586,67 @@
                 // Payment warning confirmation
                 document.getElementById('payment-confirm-yes').addEventListener('click', function() {
                     document.getElementById('payment-warning-modal').style.display = 'none';
-                    document.getElementById('countdown-modal').style.display = 'flex';
                     
-                    // Start countdown
+                    // Create deposit record with pending status
+                    const amount = parseFloat(document.getElementById('deposit-amount').value);
+                    const depositId = 'DEP' + Date.now();
+                    
+                    const depositRecord = {
+                        id: depositId,
+                        amount: amount,
+                        status: 'pending',
+                        date: new Date().toISOString(),
+                        userId: user.uid
+                    };
+                    
+                    // Add to transaction records
+                    if (!userData.transactions) userData.transactions = [];
+                    userData.transactions.push(depositRecord);
+                    
+                    // Update UI
+                    updateUI();
+                    
+                    // Save data
+                    saveUserData();
+                    
+                    // Start countdown in background (invisible to user)
                     let timeLeft = 300; // 5 minutes in seconds
-                    const countdownElement = document.getElementById('countdown-timer');
                     
                     const countdown = setInterval(function() {
-                        const minutes = Math.floor(timeLeft / 60);
-                        const seconds = timeLeft % 60;
-                        
-                        countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-                        
                         timeLeft--;
                         
                         if (timeLeft < 0) {
                             clearInterval(countdown);
-                            document.getElementById('countdown-modal').style.display = 'none';
                             
-                            // Update balance
-                            const amount = parseFloat(document.getElementById('deposit-amount').value);
-                            
-                            // Add to recharge balance
-                            userData.rechargeBalance += amount;
-                            
-                            // Add reward points (3 points for R70)
-                            userData.rewardPoints += Math.floor(amount / 70) * 3;
-                            
-                            alert(`Deposit of R${amount} has been successfully processed!`);
-                            
-                            // Update UI
-                            updateUI();
-                            
-                            // Reset form
-                            document.getElementById('deposit-amount').value = '';
-                            document.getElementById('payment-channel').value = '';
-                            document.getElementById('payment-info').style.display = 'none';
-                            document.getElementById('proceed-payment').style.display = 'none';
-                            
-                            // Save data
-                            saveUserData();
+                            // Update deposit status to successful
+                            const depositIndex = userData.transactions.findIndex(t => t.id === depositId);
+                            if (depositIndex !== -1) {
+                                userData.transactions[depositIndex].status = 'successful';
+                                
+                                // Add to recharge balance
+                                userData.rechargeBalance += amount;
+                                
+                                // Add reward points (3 points for R70)
+                                userData.rewardPoints += Math.floor(amount / 70) * 3;
+                                
+                                // Update UI
+                                updateUI();
+                                
+                                // Save data
+                                saveUserData();
+                                
+                                alert(`Deposit of R${amount} has been successfully processed!`);
+                            }
                         }
                     }, 1000);
+                    
+                    // Reset form
+                    document.getElementById('deposit-amount').value = '';
+                    document.getElementById('payment-channel').value = '';
+                    document.getElementById('payment-info').style.display = 'none';
+                    document.getElementById('proceed-payment').style.display = 'none';
+                    
+                    alert('Your deposit is being processed. It will be added to your account shortly.');
                 });
                 
                 document.getElementById('payment-confirm-no').addEventListener('click', function() {
@@ -2620,10 +2715,10 @@
                 
                 // Invite section functionality
                 document.getElementById('invitation-code').textContent = userData.invitationCode;
-                document.getElementById('invitation-link').textContent = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
+                document.getElementById('invitation-link').textContent = `${window.location.origin}${window.location.pathname}?ref=${userData.invitationCode}`;
                 
                 document.getElementById('share-whatsapp').addEventListener('click', function() {
-                    const message = `Join me at Pizza Palace! Use my invitation code: ${userData.invitationCode} or click: pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
+                    const message = `Join me at Pizza Palace! Use my invitation code: ${userData.invitationCode} or click: ${window.location.origin}${window.location.pathname}?ref=${userData.invitationCode}`;
                     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
                     window.open(whatsappUrl, '_blank');
                 });
@@ -2633,7 +2728,7 @@
                 });
                 
                 document.getElementById('copy-link').addEventListener('click', function() {
-                    const link = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
+                    const link = `${window.location.origin}${window.location.pathname}?ref=${userData.invitationCode}`;
                     navigator.clipboard.writeText(link).then(function() {
                         alert('Invitation link copied to clipboard!');
                     }, function(err) {
@@ -2658,12 +2753,39 @@
                     totalCommission: 0
                 },
                 invitationCode: generateInvitationCode(),
-                lastCheckin: null
+                lastCheckin: null,
+                referredBy: null,
+                transactions: []
             };
             
-            // Load data from localStorage if available
-            if (localStorage.getItem('pizzaUserData')) {
-                userData = JSON.parse(localStorage.getItem('pizzaUserData'));
+            // Load data from Firebase if available
+            function loadUserData(userId) {
+                const userDocRef = doc(db, "users", userId);
+                getDoc(userDocRef).then((docSnap) => {
+                    if (docSnap.exists()) {
+                        userData = { ...userData, ...docSnap.data() };
+                        updateUI();
+                    } else {
+                        // Create new user document
+                        saveUserData();
+                    }
+                }).catch((error) => {
+                    console.error("Error loading user data:", error);
+                });
+            }
+            
+            // Save user data to Firebase
+            function saveUserData() {
+                if (!auth.currentUser) return;
+                
+                const userDocRef = doc(db, "users", auth.currentUser.uid);
+                setDoc(userDocRef, userData, { merge: true })
+                .then(() => {
+                    console.log("User data saved successfully");
+                })
+                .catch((error) => {
+                    console.error("Error saving user data:", error);
+                });
             }
             
             // Function to calculate daily income based on investment amount and type
@@ -2738,6 +2860,53 @@
                         `;
                         ordersList.appendChild(orderElement);
                     });
+                }
+            }
+            
+            function loadTeamData() {
+                const teamList = document.getElementById('team-list');
+                const noTeamMessage = document.getElementById('no-team-message');
+                
+                // In a real app, you would fetch team data from Firebase
+                // For now, we'll use the data from userData
+                
+                if (userData.team.activeMembers === 0 && userData.team.unactivatedMembers === 0) {
+                    teamList.style.display = 'none';
+                    noTeamMessage.style.display = 'block';
+                } else {
+                    teamList.style.display = 'block';
+                    noTeamMessage.style.display = 'none';
+                    
+                    // Clear existing team members
+                    teamList.innerHTML = '';
+                    
+                    // Add team members (this is a simplified example)
+                    // In a real app, you would fetch actual team member data
+                    for (let i = 0; i < userData.team.activeMembers; i++) {
+                        const memberElement = document.createElement('div');
+                        memberElement.className = 'team-member';
+                        memberElement.innerHTML = `
+                            <div class="member-details">
+                                <div class="member-name">Active Member ${i+1}</div>
+                                <div class="member-status active">Active</div>
+                            </div>
+                            <div class="member-commission">R22</div>
+                        `;
+                        teamList.appendChild(memberElement);
+                    }
+                    
+                    for (let i = 0; i < userData.team.unactivatedMembers; i++) {
+                        const memberElement = document.createElement('div');
+                        memberElement.className = 'team-member';
+                        memberElement.innerHTML = `
+                            <div class="member-details">
+                                <div class="member-name">Unactivated Member ${i+1}</div>
+                                <div class="member-status unactivated">Unactivated</div>
+                            </div>
+                            <div class="member-commission">R0</div>
+                        `;
+                        teamList.appendChild(memberElement);
+                    }
                 }
             }
             
@@ -2835,15 +3004,6 @@
                 saveUserData();
             }
             
-            function saveUserData() {
-                localStorage.setItem('pizzaUserData', JSON.stringify(userData));
-            }
-            
-            // Simulate daily income (for demo purposes - would be daily in real app)
-            setInterval(function() {
-                processDailyIncome();
-            }, 30000); // Check every 30 seconds for demo (would be 24 hours in real app)
-            
             function generateInvitationCode() {
                 const digits = Math.floor(100 + Math.random() * 900);
                 const letters = Array.from({length: 3}, () => 
@@ -2851,6 +3011,98 @@
                 ).join('');
                 return `PIZZA${digits}${letters}`;
             }
+            
+            // Function to record referral when a new user signs up
+            function recordReferral(userId, referralCode) {
+                if (!referralCode) return;
+                
+                // Find the user with this referral code
+                const usersRef = collection(db, "users");
+                const q = query(usersRef, where("invitationCode", "==", referralCode));
+                
+                getDocs(q).then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const inviterDoc = querySnapshot.docs[0];
+                        const inviterId = inviterDoc.id;
+                        
+                        // Update the inviter's team data
+                        const inviterData = inviterDoc.data();
+                        const updatedTeam = {
+                            ...inviterData.team,
+                            unactivatedMembers: (inviterData.team.unactivatedMembers || 0) + 1
+                        };
+                        
+                        updateDoc(doc(db, "users", inviterId), {
+                            team: updatedTeam
+                        });
+                        
+                        // Record the referral relationship
+                        const referralData = {
+                            inviterId: inviterId,
+                            inviteeId: userId,
+                            status: 'unactivated',
+                            date: new Date().toISOString()
+                        };
+                        
+                        addDoc(collection(db, "referrals"), referralData);
+                        
+                        // Update current user's data to show they were referred
+                        userData.referredBy = inviterId;
+                        saveUserData();
+                    }
+                }).catch((error) => {
+                    console.error("Error recording referral:", error);
+                });
+            }
+            
+            // Function to update team member status when they invest
+            function updateTeamMemberStatus(userId, status) {
+                if (!userData.referredBy) return;
+                
+                // Find the referral record
+                const referralsRef = collection(db, "referrals");
+                const q = query(referralsRef, where("inviteeId", "==", userId));
+                
+                getDocs(q).then((querySnapshot) => {
+                    if (!querySnapshot.empty) {
+                        const referralDoc = querySnapshot.docs[0];
+                        const referralData = referralDoc.data();
+                        
+                        // Update the referral status
+                        updateDoc(doc(db, "referrals", referralDoc.id), {
+                            status: status
+                        });
+                        
+                        // Update the inviter's team data
+                        const inviterId = referralData.inviterId;
+                        const inviterDocRef = doc(db, "users", inviterId);
+                        
+                        getDoc(inviterDocRef).then((inviterDoc) => {
+                            if (inviterDoc.exists()) {
+                                const inviterData = inviterDoc.data();
+                                const team = inviterData.team || { activeMembers: 0, unactivatedMembers: 0, totalCommission: 0 };
+                                
+                                if (status === 'active') {
+                                    team.activeMembers = (team.activeMembers || 0) + 1;
+                                    team.unactivatedMembers = Math.max(0, (team.unactivatedMembers || 0) - 1);
+                                    team.totalCommission = (team.totalCommission || 0) + 22; // R22 commission
+                                }
+                                
+                                updateDoc(inviterDocRef, {
+                                    team: team
+                                });
+                            }
+                        });
+                    }
+                }).catch((error) => {
+                    console.error("Error updating team member status:", error);
+                });
+            }
+            
+            // Simulate daily income (for demo purposes - would be daily in real app)
+            setInterval(function() {
+                processDailyIncome();
+            }, 30000); // Check every 30 seconds for demo (would be 24 hours in real app)
             
             function showDashboard(user) {
                 document.getElementById('auth-section').style.display = 'none';
@@ -2864,6 +3116,9 @@
                 document.getElementById('profile-avatar').textContent = initials;
                 document.getElementById('profile-name').textContent = displayName;
                 document.getElementById('profile-email').textContent = email;
+                
+                // Load user data from Firebase
+                loadUserData(user.uid);
                 
                 // Initialize dashboard functionality
                 initDashboard();
@@ -2985,6 +3240,7 @@
                 const email = document.getElementById('signup-email').value;
                 const password = document.getElementById('signup-password').value;
                 const confirmPassword = document.getElementById('confirm-password').value;
+                const referralCode = document.getElementById('referral').value;
                 
                 // Check if passwords match
                 if (password !== confirmPassword) {
@@ -2998,7 +3254,7 @@
                     return;
                 }
                 
-                registerUser(email, password);
+                registerUser(email, password, referralCode);
             });
             
             // Forgot password functionality
@@ -3027,13 +3283,19 @@
             });
             
             // Firebase authentication functions
-            function registerUser(email, password) {
+            function registerUser(email, password, referralCode) {
                 setButtonLoading(signupBtn, true);
                 
                 createUserWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         // Signed up successfully
                         const user = userCredential.user;
+                        
+                        // Record referral if applicable
+                        if (referralCode) {
+                            recordReferral(user.uid, referralCode);
+                        }
+                        
                         showMessage('Account created successfully!', 'success');
                         
                         // Clear form
