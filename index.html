@@ -1438,6 +1438,305 @@
             max-width: 400px;
         }
         
+        /* Enhanced Deposit Modal Styles */
+        .deposit-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .deposit-option {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .deposit-option.active {
+            border-color: var(--primary);
+            background-color: rgba(230, 57, 70, 0.1);
+        }
+        
+        .deposit-option:hover {
+            transform: translateY(-3px);
+        }
+        
+        .deposit-amount {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .deposit-bonus {
+            font-size: 12px;
+            color: var(--accent);
+        }
+        
+        .payment-details {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .payment-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .payment-detail:last-child {
+            margin-bottom: 0;
+        }
+        
+        .payment-detail-label {
+            color: var(--gray);
+        }
+        
+        .payment-detail-value {
+            font-weight: 600;
+        }
+        
+        .payment-detail-value.reference {
+            font-family: monospace;
+            background-color: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+        
+        .payment-steps {
+            margin-bottom: 20px;
+        }
+        
+        .payment-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .payment-step-number {
+            width: 24px;
+            height: 24px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        
+        .payment-step-text {
+            font-size: 14px;
+        }
+        
+        .payment-qr {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .payment-qr img {
+            max-width: 200px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        
+        .payment-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .payment-actions .btn {
+            flex: 1;
+        }
+        
+        /* Enhanced Withdrawal Modal Styles */
+        .wallet-selection {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .wallet-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .wallet-option.active {
+            border-color: var(--primary);
+            background-color: rgba(230, 57, 70, 0.1);
+        }
+        
+        .wallet-option:hover {
+            transform: translateY(-3px);
+        }
+        
+        .wallet-icon-large {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        
+        .wallet-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .wallet-balance {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .withdrawal-summary {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .withdrawal-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .withdrawal-detail:last-child {
+            margin-bottom: 0;
+        }
+        
+        .withdrawal-detail-label {
+            color: var(--gray);
+        }
+        
+        .withdrawal-detail-value {
+            font-weight: 600;
+        }
+        
+        .withdrawal-detail-value.fee {
+            color: var(--error);
+        }
+        
+        .withdrawal-detail-value.net {
+            color: var(--success);
+            font-size: 18px;
+        }
+        
+        /* Success Animation */
+        .success-animation {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .success-icon {
+            font-size: 64px;
+            color: var(--success);
+            margin-bottom: 20px;
+            animation: bounce 1s;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+        
+        .success-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--success);
+        }
+        
+        .success-message {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        /* AI Bot Processing Styles */
+        .ai-processing {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        
+        .ai-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2A9D8F, #1D6F64);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .ai-avatar i {
+            color: white;
+            font-size: 24px;
+        }
+        
+        .ai-message {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .ai-text {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .ai-status {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        /* Menu Item Locked State */
+        .menu-item.locked {
+            position: relative;
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .menu-item.locked::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .menu-item.locked::before {
+            content: '🔒';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            z-index: 2;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
         /* Responsive Design */
         @media (max-width: 480px) {
             .pizza-container, .dashboard-container {
@@ -1486,6 +1785,14 @@
             .processing-countdown {
                 font-size: 36px;
             }
+            
+            .deposit-options, .wallet-selection {
+                flex-direction: column;
+            }
+            
+            .payment-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -1500,11 +1807,22 @@
         <div class="processing-icon">
             <i class="fas fa-clock"></i>
         </div>
-        <div class="processing-title">Processing Your Deposit</div>
-        <div class="processing-message">Please don't close this page. We are processing your payment.</div>
-        <div class="processing-countdown" id="processing-countdown">2:00</div>
-        <div class="processing-message">Manager is approving your deposit...</div>
-        <div class="processing-note">Once approved, funds will be automatically added to your Recharge Wallet.</div>
+        <div class="processing-title">AI Bot Processing Your Deposit</div>
+        <div class="processing-message">Our AI system is verifying your payment. Please don't close this page.</div>
+        
+        <div class="ai-processing">
+            <div class="ai-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="ai-message">
+                <div class="ai-text">AI Bot is processing your transaction...</div>
+                <div class="ai-status" id="ai-status">Verifying payment details</div>
+            </div>
+        </div>
+        
+        <div class="processing-countdown" id="processing-countdown">5:00</div>
+        <div class="processing-message">Your funds will be added to Recharge Wallet automatically</div>
+        <div class="processing-note">This process is fully automated by our AI system for security and efficiency.</div>
     </div>
 
     <!-- Authentication Section -->
@@ -1648,11 +1966,11 @@
                     <div class="balance-cards">
                         <div class="balance-card primary">
                             <div class="balance-label">Current Balance</div>
-                            <div class="balance-value">R0.00</div>
+                            <div class="balance-value" id="current-balance">R0.00</div>
                         </div>
                         <div class="balance-card">
                             <div class="balance-label">Reward Points</div>
-                            <div class="balance-value">0</div>
+                            <div class="balance-value" id="reward-points">0</div>
                         </div>
                     </div>
                 </div>
@@ -1664,7 +1982,7 @@
                         Today's Specials
                     </div>
                     <div class="menu-grid">
-                        <div class="menu-item">
+                        <div class="menu-item locked" id="menu-margherita">
                             <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
                                 <div class="menu-badge">NEW</div>
                             </div>
@@ -1674,7 +1992,7 @@
                                 <div class="menu-earnings">Earn R320 (1 day)</div>
                             </div>
                         </div>
-                        <div class="menu-item">
+                        <div class="menu-item locked" id="menu-pepperoni">
                             <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')">
                                 <div class="menu-badge">HOT</div>
                             </div>
@@ -1684,7 +2002,7 @@
                                 <div class="menu-earnings">Earn R520 (1 day)</div>
                             </div>
                         </div>
-                        <div class="menu-item">
+                        <div class="menu-item locked" id="menu-bbq">
                             <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
                             <div class="menu-details">
                                 <div class="menu-name">BBQ Chicken</div>
@@ -1692,7 +2010,7 @@
                                 <div class="menu-earnings">Earn R750 (1 day)</div>
                             </div>
                         </div>
-                        <div class="menu-item secret-animation">
+                        <div class="menu-item locked secret-animation" id="menu-truffle">
                             <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
                             <div class="menu-details">
                                 <div class="menu-name">Truffle Pizza</div>
@@ -1861,7 +2179,7 @@
                         All Menu Items
                     </div>
                     <div class="menu-grid">
-                        <div class="menu-item">
+                        <div class="menu-item locked" id="menu-all-margherita">
                             <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
                             <div class="menu-details">
                                 <div class="menu-name">Margherita Pizza</div>
@@ -1869,7 +2187,7 @@
                                 <div class="menu-earnings">Earn R320 (1 day)</div>
                             </div>
                         </div>
-                        <div class="menu-item">
+                        <div class="menu-item locked" id="menu-all-pepperoni">
                             <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1574071318508-1cdbab80d002?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
                             <div class="menu-details">
                                 <div class="menu-name">Pepperoni Feast</div>
@@ -1877,7 +2195,7 @@
                                 <div class="menu-earnings">Earn R520 (1 day)</div>
                             </div>
                         </div>
-                        <div class="menu-item">
+                        <div class="menu-item locked" id="menu-all-bbq">
                             <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1595708684082-a173bb3a06c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
                             <div class="menu-details">
                                 <div class="menu-name">BBQ Chicken</div>
@@ -1885,7 +2203,7 @@
                                 <div class="menu-earnings">Earn R750 (1 day)</div>
                             </div>
                         </div>
-                        <div class="menu-item">
+                        <div class="menu-item locked" id="menu-all-truffle">
                             <div class="menu-image" style="background-image: url('https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80')"></div>
                             <div class="menu-details">
                                 <div class="menu-name">Truffle Pizza</div>
@@ -1905,19 +2223,19 @@
                     <div class="profile-email" id="profile-email">john.doe@example.com</div>
                     <div class="stats-grid">
                         <div class="stat-card">
-                            <div class="stat-value">R0.00</div>
+                            <div class="stat-value" id="stat-balance">R0.00</div>
                             <div class="stat-label">Current Balance</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value">0</div>
+                            <div class="stat-value" id="stat-points">0</div>
                             <div class="stat-label">Reward Points</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value">0</div>
+                            <div class="stat-value" id="stat-investments">0</div>
                             <div class="stat-label">Active Investments</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value">R0.00</div>
+                            <div class="stat-value" id="stat-earnings">R0.00</div>
                             <div class="stat-label">Total Earnings</div>
                         </div>
                     </div>
@@ -1932,17 +2250,17 @@
                     <div class="wallet-grid">
                         <div class="wallet-card primary">
                             <div class="wallet-icon">💰</div>
-                            <div class="wallet-value">R0.00</div>
+                            <div class="wallet-value" id="recharge-wallet">R0.00</div>
                             <div class="wallet-label">Recharge Wallet</div>
                         </div>
                         <div class="wallet-card">
                             <div class="wallet-icon">💳</div>
-                            <div class="wallet-value">R0.00</div>
+                            <div class="wallet-value" id="income-wallet">R0.00</div>
                             <div class="wallet-label">Income Wallet</div>
                         </div>
                         <div class="wallet-card">
                             <div class="wallet-icon">📊</div>
-                            <div class="wallet-value">R0.00</div>
+                            <div class="wallet-value" id="commission-wallet">R0.00</div>
                             <div class="wallet-label">Commission</div>
                         </div>
                     </div>
@@ -2179,17 +2497,37 @@
             </div>
         </div>
 
-        <!-- Modal for Deposit -->
+        <!-- Enhanced Modal for Deposit -->
         <div id="deposit-modal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="modal-title">Make a Deposit</div>
                     <div class="close-modal">&times;</div>
                 </div>
+                
                 <div class="form-group">
-                    <label class="form-label" for="deposit-amount">Amount (Minimum R70)</label>
-                    <input type="number" id="deposit-amount" class="form-input" min="70" required>
+                    <label class="form-label">Select Amount</label>
+                    <div class="deposit-options">
+                        <div class="deposit-option" data-amount="70">
+                            <div class="deposit-amount">R70</div>
+                            <div class="deposit-bonus">+3 Points</div>
+                        </div>
+                        <div class="deposit-option" data-amount="140">
+                            <div class="deposit-amount">R140</div>
+                            <div class="deposit-bonus">+6 Points</div>
+                        </div>
+                        <div class="deposit-option" data-amount="210">
+                            <div class="deposit-amount">R210</div>
+                            <div class="deposit-bonus">+9 Points</div>
+                        </div>
+                    </div>
                 </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="custom-amount">Or Enter Custom Amount (Minimum R70)</label>
+                    <input type="number" id="custom-amount" class="form-input" min="70" placeholder="Enter amount">
+                </div>
+                
                 <div class="form-group">
                     <label class="form-label" for="payment-channel">Payment Channel</label>
                     <select id="payment-channel" class="form-select" required>
@@ -2198,38 +2536,70 @@
                         <option value="tymebank">Tymebank</option>
                     </select>
                 </div>
-                <div id="payment-info" class="payment-info" style="display: none;">
+                
+                <div id="payment-details" class="payment-details" style="display: none;">
                     <!-- Payment details will be inserted here -->
                 </div>
-                <div class="btn-group">
-                    <button id="proceed-payment" class="btn btn-primary" style="display: none;">Proceed with Payment</button>
+                
+                <div class="payment-steps" style="display: none;">
+                    <div class="payment-step">
+                        <div class="payment-step-number">1</div>
+                        <div class="payment-step-text">Transfer the exact amount to the account details above</div>
+                    </div>
+                    <div class="payment-step">
+                        <div class="payment-step-number">2</div>
+                        <div class="payment-step-text">Use the reference code provided</div>
+                    </div>
+                    <div class="payment-step">
+                        <div class="payment-step-number">3</div>
+                        <div class="payment-step-text">Click "I've Paid" once payment is complete</div>
+                    </div>
+                </div>
+                
+                <div class="payment-actions" style="display: none;">
+                    <button id="proceed-payment" class="btn btn-primary">I've Paid</button>
+                    <button id="cancel-payment" class="btn btn-secondary">Cancel</button>
                 </div>
             </div>
         </div>
 
-        <!-- Modal for Withdrawal -->
+        <!-- Enhanced Modal for Withdrawal -->
         <div id="withdraw-modal" class="modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="modal-title">Withdraw Funds</div>
                     <div class="close-modal">&times;</div>
                 </div>
-                <form id="withdraw-form">
-                    <div class="form-group">
-                        <label class="form-label" for="withdraw-amount">Amount (Minimum R50)</label>
-                        <input type="number" id="withdraw-amount" class="form-input" min="50" required>
-                        <div class="withdrawal-fee">Withdrawal fee: 15%</div>
+                
+                <div class="form-group">
+                    <label class="form-label">Select Wallet</label>
+                    <div class="wallet-selection">
+                        <div class="wallet-option" data-wallet="income">
+                            <div class="wallet-icon-large">💳</div>
+                            <div class="wallet-name">Income Wallet</div>
+                            <div class="wallet-balance">R0.00</div>
+                        </div>
+                        <div class="wallet-option" data-wallet="commission">
+                            <div class="wallet-icon-large">📊</div>
+                            <div class="wallet-name">Commission</div>
+                            <div class="wallet-balance">R0.00</div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="withdraw-wallet">From Wallet</label>
-                        <select id="withdraw-wallet" class="form-select" required>
-                            <option value="">Select wallet</option>
-                            <option value="income">Income Wallet</option>
-                            <option value="commission">Commission Wallet</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Withdraw</button>
-                </form>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="withdraw-amount">Amount (Minimum R50)</label>
+                    <input type="number" id="withdraw-amount" class="form-input" min="50" required>
+                </div>
+                
+                <div id="withdrawal-summary" class="withdrawal-summary" style="display: none;">
+                    <!-- Withdrawal summary will be inserted here -->
+                </div>
+                
+                <div class="payment-actions" style="display: none;">
+                    <button id="confirm-withdrawal" class="btn btn-primary">Confirm Withdrawal</button>
+                    <button id="cancel-withdrawal" class="btn btn-secondary">Cancel</button>
+                </div>
             </div>
         </div>
 
@@ -2276,7 +2646,7 @@
                     <div class="modal-title">Processing Payment</div>
                 </div>
                 <p>Your payment is being processed. Please wait...</p>
-                <div class="countdown" id="countdown-timer">2:00</div>
+                <div class="countdown" id="countdown-timer">0:30</div>
             </div>
         </div>
 
@@ -2294,9 +2664,46 @@
                 </div>
             </div>
         </div>
+
+        <!-- Success Modal -->
+        <div id="success-modal" class="modal">
+            <div class="modal-content">
+                <div class="success-animation">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="success-title">Success!</div>
+                    <div class="success-message" id="success-message">Your transaction was completed successfully.</div>
+                    <button id="success-ok" class="btn btn-primary">OK</button>
+                </div>
+            </div>
+        </div>
     </section>
 
     <script>
+        // Global user data object
+        let userData = {
+            rechargeBalance: 0,
+            incomeBalance: 0,
+            commissionBalance: 0,
+            rewardPoints: 0,
+            activeInvestments: 0,
+            totalEarnings: 0,
+            hasInvested: false,
+            orders: [],
+            team: {
+                activeMembers: 0,
+                unactivatedMembers: 0,
+                totalCommission: 0,
+                members: []
+            },
+            invitationCode: '',
+            lastCheckin: null,
+            referredBy: null,
+            transactions: [],
+            dailyIncomeProcessed: null
+        };
+
         // Firebase Authentication State Listener
         document.addEventListener('DOMContentLoaded', function() {
             // WhatsApp Group Button
@@ -2326,1001 +2733,6 @@
 
             // Initialize authentication functionality
             initAuth();
-            
-            // Initialize dashboard functionality (will be called when user logs in)
-            function initDashboard() {
-                // Banner Slider Functionality
-                const sliderContainer = document.querySelector('.slider-container');
-                const slides = document.querySelectorAll('.slide');
-                const indicators = document.querySelectorAll('.indicator');
-                let currentSlide = 0;
-                const slideCount = slides.length;
-                
-                // Set up slider indicators
-                indicators.forEach((indicator, index) => {
-                    indicator.addEventListener('click', () => {
-                        currentSlide = index;
-                        updateSlider();
-                    });
-                });
-                
-                // Auto slide every 5 seconds
-                setInterval(() => {
-                    currentSlide = (currentSlide + 1) % slideCount;
-                    updateSlider();
-                }, 5000);
-                
-                function updateSlider() {
-                    // Update slider position
-                    sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
-                    
-                    // Update active indicator
-                    indicators.forEach((indicator, index) => {
-                        if (index === currentSlide) {
-                            indicator.classList.add('active');
-                        } else {
-                            indicator.classList.remove('active');
-                        }
-                    });
-                }
-                
-                // Add hover effects to menu items
-                const menuItems = document.querySelectorAll('.menu-item');
-                menuItems.forEach(item => {
-                    item.addEventListener('mouseenter', function() {
-                        this.style.transform = 'translateY(-5px)';
-                        this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
-                    });
-                    
-                    item.addEventListener('mouseleave', function() {
-                        this.style.transform = 'translateY(0)';
-                        this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.05)';
-                    });
-                });
-                
-                // Bottom navigation functionality
-                const navItems = document.querySelectorAll('.nav-item');
-                navItems.forEach(item => {
-                    item.addEventListener('click', function() {
-                        const targetId = this.getAttribute('data-target');
-                        
-                        // Update active nav item
-                        navItems.forEach(nav => nav.classList.remove('active'));
-                        this.classList.add('active');
-                        
-                        // Show target section
-                        document.querySelectorAll('.section').forEach(section => {
-                            section.classList.remove('active');
-                        });
-                        document.getElementById(targetId).classList.add('active');
-                    });
-                });
-                
-                // Header action buttons
-                document.getElementById('checkin-btn').addEventListener('click', function() {
-                    handleCheckin();
-                });
-                
-                document.getElementById('rewards-btn').addEventListener('click', function() {
-                    exchangeRewardPoints();
-                });
-                
-                document.getElementById('invite-btn').addEventListener('click', function() {
-                    document.querySelectorAll('.section').forEach(section => {
-                        section.classList.remove('active');
-                    });
-                    document.getElementById('invite-section').classList.add('active');
-                    
-                    // Update nav
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                });
-                
-                document.getElementById('team-btn').addEventListener('click', function() {
-                    document.querySelectorAll('.section').forEach(section => {
-                        section.classList.remove('active');
-                    });
-                    document.getElementById('team-section').classList.add('active');
-                    
-                    // Update nav
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    
-                    // Load team data
-                    loadTeamData();
-                });
-                
-                // Secret animation for the special item
-                const secretItem = document.querySelector('.secret-animation');
-                secretItem.addEventListener('click', function() {
-                    alert("You found the secret pizza! Enjoy 10% off your next order with code: SECRET10");
-                });
-                
-                // Investment package click functionality
-                const investmentItems = document.querySelectorAll('.investment-item');
-                investmentItems.forEach(item => {
-                    item.addEventListener('click', function() {
-                        const investmentName = this.querySelector('.investment-name').textContent;
-                        const investmentAmount = parseFloat(this.querySelector('.investment-amount').textContent.replace('R', ''));
-                        
-                        // Check if user has enough balance
-                        if (userData.rechargeBalance < investmentAmount) {
-                            alert(`Insufficient balance! You need R${investmentAmount} in your Recharge Wallet to invest in ${investmentName}`);
-                            return;
-                        }
-                        
-                        // Show confirmation modal
-                        document.getElementById('investment-confirm-text').textContent = `Are you sure you want to invest R${investmentAmount} in ${investmentName}?`;
-                        document.getElementById('investment-confirm-modal').style.display = 'flex';
-                        
-                        // Store investment details for confirmation
-                        window.currentInvestment = {
-                            name: investmentName,
-                            amount: investmentAmount,
-                            element: this
-                        };
-                    });
-                });
-                
-                // Menu item investment functionality
-                const menuInvestmentItems = document.querySelectorAll('.menu-item');
-                menuInvestmentItems.forEach(item => {
-                    item.addEventListener('click', function() {
-                        const menuName = this.querySelector('.menu-name').textContent;
-                        const menuPrice = parseFloat(this.querySelector('.menu-price').textContent.replace('R', ''));
-                        
-                        // Check if user has enough balance
-                        if (userData.rechargeBalance < menuPrice) {
-                            alert(`Insufficient balance! You need R${menuPrice} in your Recharge Wallet to invest in ${menuName}`);
-                            return;
-                        }
-                        
-                        // Show confirmation modal
-                        document.getElementById('investment-confirm-text').textContent = `Are you sure you want to invest R${menuPrice} in ${menuName}?`;
-                        document.getElementById('investment-confirm-modal').style.display = 'flex';
-                        
-                        // Store investment details for confirmation
-                        window.currentInvestment = {
-                            name: menuName,
-                            amount: menuPrice,
-                            element: this,
-                            isMenu: true
-                        };
-                    });
-                });
-                
-                // Investment confirmation
-                document.getElementById('investment-yes').addEventListener('click', function() {
-                    const investment = window.currentInvestment;
-                    
-                    // IMMEDIATELY deduct amount from recharge balance
-                    userData.rechargeBalance -= investment.amount;
-                    
-                    // Add to active investments
-                    userData.activeInvestments++;
-                    userData.hasInvested = true;
-                    
-                    // Create order with proper daily income calculation
-                    const orderId = 'ORD' + Date.now();
-                    const dailyIncome = calculateDailyIncome(investment.amount, investment.isMenu);
-                    const days = investment.isMenu ? 1 : 32;
-                    
-                    const order = {
-                        id: orderId,
-                        name: investment.name,
-                        amount: investment.amount,
-                        dailyIncome: dailyIncome,
-                        days: days,
-                        daysRemaining: days,
-                        startDate: new Date().toISOString(),
-                        lastPayoutDate: null, // Will be set when first payout happens
-                        status: 'Active',
-                        type: investment.isMenu ? 'Menu' : 'Package'
-                    };
-                    
-                    userData.orders.push(order);
-                    
-                    // Update UI immediately
-                    updateUI();
-                    
-                    // Show success message
-                    alert(`Invested successfully in ${investment.name}! You will earn R${dailyIncome} daily.`);
-                    
-                    // Close modal
-                    document.getElementById('investment-confirm-modal').style.display = 'none';
-                    
-                    // Save data to Firebase
-                    saveUserData();
-                    
-                    // Update team status if this user was referred
-                    if (userData.referredBy) {
-                        updateTeamMemberStatus(user.uid, 'active');
-                    }
-                });
-                
-                document.getElementById('investment-no').addEventListener('click', function() {
-                    document.getElementById('investment-confirm-modal').style.display = 'none';
-                });
-                
-                // Modal functionality
-                const modals = document.querySelectorAll('.modal');
-                const closeButtons = document.querySelectorAll('.close-modal');
-                
-                // Close modal when clicking X
-                closeButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        this.closest('.modal').style.display = 'none';
-                    });
-                });
-                
-                // Close modal when clicking outside
-                modals.forEach(modal => {
-                    modal.addEventListener('click', function(e) {
-                        if (e.target === this) {
-                            this.style.display = 'none';
-                        }
-                    });
-                });
-                
-                // Bank Account Binding
-                document.getElementById('bank-btn').addEventListener('click', function() {
-                    document.getElementById('bank-modal').style.display = 'flex';
-                });
-                
-                document.getElementById('bank-form').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const fullName = document.getElementById('full-name').value;
-                    const bankName = document.getElementById('bank-name').value;
-                    const accountNumber = document.getElementById('account-number').value;
-                    
-                    // In a real app, you would send this data to a server
-                    alert(`Bank account binding successful!\n\nFull Name: ${fullName}\nBank Name: ${bankName}\nAccount Number: ${accountNumber}`);
-                    document.getElementById('bank-modal').style.display = 'none';
-                    this.reset();
-                });
-                
-                // Change Password
-                document.getElementById('password-btn').addEventListener('click', function() {
-                    document.getElementById('password-modal').style.display = 'flex';
-                });
-                
-                document.getElementById('password-form').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const oldPassword = document.getElementById('old-password').value;
-                    const newPassword = document.getElementById('new-password').value;
-                    const confirmPassword = document.getElementById('confirm-password').value;
-                    
-                    if (newPassword !== confirmPassword) {
-                        alert('New passwords do not match!');
-                        return;
-                    }
-                    
-                    // In a real app, you would verify old password and update to new password
-                    alert('Password changed successfully!');
-                    document.getElementById('password-modal').style.display = 'none';
-                    this.reset();
-                });
-                
-                // Customer Service
-                document.getElementById('support-btn').addEventListener('click', function() {
-                    window.open('https://wa.me/27631287462', '_blank');
-                });
-                
-                // Transaction Records
-                document.getElementById('records-btn').addEventListener('click', function() {
-                    alert('Detailed transaction records would appear here.');
-                });
-                
-                // Orders
-                document.getElementById('orders-btn').addEventListener('click', function() {
-                    document.querySelectorAll('.section').forEach(section => {
-                        section.classList.remove('active');
-                    });
-                    document.getElementById('orders-section').classList.add('active');
-                    
-                    // Update nav
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    document.querySelector('[data-target="orders-section"]').classList.add('active');
-                    
-                    // Update orders list
-                    updateOrdersList();
-                });
-                
-                // Logout
-                document.getElementById('logout-btn').addEventListener('click', function() {
-                    if(confirm('Are you sure you want to log out?')) {
-                        signOut(auth).then(() => {
-                            // Sign-out successful.
-                            alert('You have been logged out successfully.');
-                            showAuth();
-                        }).catch((error) => {
-                            // An error happened.
-                            alert('Error logging out: ' + error.message);
-                        });
-                    }
-                });
-                
-                // Deposit functionality
-                document.getElementById('deposit-btn').addEventListener('click', function() {
-                    document.getElementById('deposit-modal').style.display = 'flex';
-                });
-                
-                // Show payment details when channel is selected
-                document.getElementById('payment-channel').addEventListener('change', function() {
-                    const channel = this.value;
-                    const paymentInfo = document.getElementById('payment-info');
-                    const proceedBtn = document.getElementById('proceed-payment');
-                    
-                    if (channel) {
-                        let details = '';
-                        if (channel === 'discovery') {
-                            details = `
-                                <p><strong>Discovery Bank</strong></p>
-                                <p>Beneficiary: Pizza</p>
-                                <p>Account Number: 18695378176</p>
-                                <p>Reference: Pizza${Math.floor(1000 + Math.random() * 9000)}</p>
-                            `;
-                        } else if (channel === 'tymebank') {
-                            details = `
-                                <p><strong>Tymebank</strong></p>
-                                <p>Beneficiary: Pizza</p>
-                                <p>Account Number: 51104524563</p>
-                                <p>Reference: Pizza${Math.floor(1000 + Math.random() * 9000)}</p>
-                            `;
-                        }
-                        
-                        paymentInfo.innerHTML = details;
-                        paymentInfo.style.display = 'block';
-                        proceedBtn.style.display = 'block';
-                    } else {
-                        paymentInfo.style.display = 'none';
-                        proceedBtn.style.display = 'none';
-                    }
-                });
-                
-                // Proceed with payment
-                document.getElementById('proceed-payment').addEventListener('click', function() {
-                    const amount = document.getElementById('deposit-amount').value;
-                    const channel = document.getElementById('payment-channel').value;
-                    
-                    if (!amount || amount < 70) {
-                        alert('Minimum deposit amount is R70');
-                        return;
-                    }
-                    
-                    if (!channel) {
-                        alert('Please select a payment channel');
-                        return;
-                    }
-                    
-                    document.getElementById('deposit-modal').style.display = 'none';
-                    document.getElementById('payment-confirm-modal').style.display = 'flex';
-                });
-                
-                // Payment confirmation
-                document.getElementById('payment-yes').addEventListener('click', function() {
-                    document.getElementById('payment-confirm-modal').style.display = 'none';
-                    document.getElementById('payment-warning-modal').style.display = 'flex';
-                });
-                
-                document.getElementById('payment-no').addEventListener('click', function() {
-                    document.getElementById('payment-confirm-modal').style.display = 'none';
-                    document.getElementById('deposit-modal').style.display = 'flex';
-                });
-                
-                // Payment warning confirmation
-                document.getElementById('payment-confirm-yes').addEventListener('click', function() {
-                    document.getElementById('payment-warning-modal').style.display = 'none';
-                    
-                    // Create deposit record with pending status
-                    const amount = parseFloat(document.getElementById('deposit-amount').value);
-                    const depositId = 'DEP' + Date.now();
-                    
-                    const depositRecord = {
-                        id: depositId,
-                        amount: amount,
-                        status: 'pending',
-                        date: new Date().toISOString(),
-                        userId: user.uid
-                    };
-                    
-                    // Add to transaction records
-                    if (!userData.transactions) userData.transactions = [];
-                    userData.transactions.push(depositRecord);
-                    
-                    // Update UI
-                    updateUI();
-                    
-                    // Save data
-                    saveUserData();
-                    
-                    // Show processing screen with countdown
-                    showProcessingScreen(amount);
-                    
-                    // Reset form
-                    document.getElementById('deposit-amount').value = '';
-                    document.getElementById('payment-channel').value = '';
-                    document.getElementById('payment-info').style.display = 'none';
-                    document.getElementById('proceed-payment').style.display = 'none';
-                });
-                
-                document.getElementById('payment-confirm-no').addEventListener('click', function() {
-                    document.getElementById('payment-warning-modal').style.display = 'none';
-                    document.getElementById('deposit-modal').style.display = 'flex';
-                });
-                
-                // Withdrawal functionality
-                document.getElementById('withdraw-btn').addEventListener('click', function() {
-                    // Check if user has invested
-                    if (!userData.hasInvested) {
-                        alert('You need to make an investment before you can withdraw funds.');
-                        return;
-                    }
-                    
-                    document.getElementById('withdraw-modal').style.display = 'flex';
-                });
-                
-                document.getElementById('withdraw-form').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const amount = parseFloat(document.getElementById('withdraw-amount').value);
-                    const wallet = document.getElementById('withdraw-wallet').value;
-                    
-                    if (!amount || amount < 50) {
-                        alert('Minimum withdrawal amount is R50');
-                        return;
-                    }
-                    
-                    if (!wallet) {
-                        alert('Please select a wallet');
-                        return;
-                    }
-                    
-                    // Check if user has enough balance in selected wallet
-                    let walletBalance = 0;
-                    if (wallet === 'income') {
-                        walletBalance = userData.incomeBalance;
-                    } else if (wallet === 'commission') {
-                        walletBalance = userData.commissionBalance;
-                    }
-                    
-                    if (amount > walletBalance) {
-                        alert(`Insufficient balance in ${wallet} wallet!`);
-                        return;
-                    }
-                    
-                    // Calculate withdrawal fee (15%)
-                    const fee = amount * 0.15;
-                    const netAmount = amount - fee;
-                    
-                    // Redirect to WhatsApp with withdrawal details
-                    const message = `Withdrawal Request:\nAmount: R${amount}\nFee: R${fee.toFixed(2)}\nNet Amount: R${netAmount.toFixed(2)}\nWallet: ${wallet}`;
-                    const whatsappUrl = `https://wa.me/0818535051?text=${encodeURIComponent(message)}`;
-                    window.open(whatsappUrl, '_blank');
-                    
-                    // In a real app, you would process the withdrawal
-                    alert(`Withdrawal request of R${amount} from ${wallet} wallet has been submitted. You will receive R${netAmount.toFixed(2)} after fees.`);
-                    document.getElementById('withdraw-modal').style.display = 'none';
-                    this.reset();
-                });
-                
-                // Transfer functionality
-                document.getElementById('transfer-btn').addEventListener('click', function() {
-                    alert('Transfer between wallets functionality would open here.');
-                });
-                
-                // Invite section functionality
-                document.getElementById('invitation-code').textContent = userData.invitationCode;
-                document.getElementById('invitation-link').textContent = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
-                
-                document.getElementById('share-whatsapp').addEventListener('click', function() {
-                    const message = `Join me at Pizza Palace! Use my invitation code: ${userData.invitationCode} or click: pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
-                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-                    window.open(whatsappUrl, '_blank');
-                });
-                
-                document.getElementById('share-facebook').addEventListener('click', function() {
-                    alert('Facebook sharing would be implemented here.');
-                });
-                
-                document.getElementById('copy-link').addEventListener('click', function() {
-                    const link = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
-                    navigator.clipboard.writeText(link).then(function() {
-                        alert('Invitation link copied to clipboard!');
-                    }, function(err) {
-                        alert('Failed to copy link: ' + err);
-                    });
-                });
-            }
-
-            // Initialize user data
-            let userData = {
-                rechargeBalance: 0,
-                incomeBalance: 0,
-                commissionBalance: 0,
-                rewardPoints: 0,
-                activeInvestments: 0,
-                totalEarnings: 0,
-                hasInvested: false,
-                orders: [],
-                team: {
-                    activeMembers: 0,
-                    unactivatedMembers: 0,
-                    totalCommission: 0,
-                    members: []
-                },
-                invitationCode: generateInvitationCode(),
-                lastCheckin: null,
-                referredBy: null,
-                transactions: []
-            };
-            
-            // Load data from Firebase if available
-            function loadUserData(userId) {
-                const userDocRef = doc(db, "users", userId);
-                getDoc(userDocRef).then((docSnap) => {
-                    if (docSnap.exists()) {
-                        userData = { ...userData, ...docSnap.data() };
-                        updateUI();
-                        
-                        // Load team members if any
-                        if (userData.team && userData.team.members && userData.team.members.length > 0) {
-                            loadTeamMembers();
-                        }
-                    } else {
-                        // Create new user document
-                        saveUserData();
-                    }
-                }).catch((error) => {
-                    console.error("Error loading user data:", error);
-                });
-            }
-            
-            // Save user data to Firebase
-            function saveUserData() {
-                if (!auth.currentUser) return;
-                
-                const userDocRef = doc(db, "users", auth.currentUser.uid);
-                setDoc(userDocRef, userData, { merge: true })
-                .then(() => {
-                    console.log("User data saved successfully");
-                })
-                .catch((error) => {
-                    console.error("Error saving user data:", error);
-                });
-            }
-            
-            // Function to calculate daily income based on investment amount and type
-            function calculateDailyIncome(amount, isMenu) {
-                if (isMenu) {
-                    // Menu items: R200 -> R320 (60% return), R300 -> R520 (73% return), etc.
-                    if (amount === 200) return 320;
-                    if (amount === 300) return 520;
-                    if (amount === 450) return 750;
-                    if (amount === 800) return 1380;
-                    return amount * 1.6; // Default 60% return for menu items
-                } else {
-                    // Investment packages: R70 -> R14 (20% daily return)
-                    return amount * 0.2;
-                }
-            }
-            
-            // Function to show processing screen with countdown
-            function showProcessingScreen(amount) {
-                const processingScreen = document.getElementById('processing-screen');
-                const countdownElement = document.getElementById('processing-countdown');
-                
-                // Show processing screen
-                processingScreen.style.display = 'flex';
-                
-                // Start countdown (2 minutes)
-                let timeLeft = 120; // 2 minutes in seconds
-                
-                const countdown = setInterval(function() {
-                    timeLeft--;
-                    
-                    // Update countdown display
-                    const minutes = Math.floor(timeLeft / 60);
-                    const seconds = timeLeft % 60;
-                    countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(countdown);
-                        
-                        // IMMEDIATELY update deposit status to successful
-                        const depositIndex = userData.transactions.findIndex(t => t.status === 'pending');
-                        if (depositIndex !== -1) {
-                            userData.transactions[depositIndex].status = 'successful';
-                            
-                            // IMMEDIATELY add to recharge balance
-                            userData.rechargeBalance += amount;
-                            
-                            // IMMEDIATELY add reward points (3 points for R70)
-                            userData.rewardPoints += Math.floor(amount / 70) * 3;
-                            
-                            // Update UI immediately
-                            updateUI();
-                            
-                            // Save data immediately
-                            saveUserData();
-                            
-                            // Hide processing screen
-                            processingScreen.style.display = 'none';
-                            
-                            // Show success message immediately
-                            alert(`Deposit of R${amount} has been successfully processed! Funds added to your Recharge Wallet.`);
-                        }
-                    }
-                }, 1000);
-            }
-            
-            function updateUI() {
-                // Update balances
-                document.querySelectorAll('.balance-value')[0].textContent = `R${userData.rechargeBalance.toFixed(2)}`;
-                document.querySelectorAll('.balance-value')[1].textContent = userData.rewardPoints;
-                
-                // Update wallet values
-                document.querySelectorAll('.wallet-value')[0].textContent = `R${userData.rechargeBalance.toFixed(2)}`;
-                document.querySelectorAll('.wallet-value')[1].textContent = `R${userData.incomeBalance.toFixed(2)}`;
-                document.querySelectorAll('.wallet-value')[2].textContent = `R${userData.commissionBalance.toFixed(2)}`;
-                
-                // Update stats
-                document.querySelectorAll('.stat-value')[0].textContent = `R${userData.rechargeBalance.toFixed(2)}`;
-                document.querySelectorAll('.stat-value')[1].textContent = userData.rewardPoints;
-                document.querySelectorAll('.stat-value')[2].textContent = userData.activeInvestments;
-                document.querySelectorAll('.stat-value')[3].textContent = `R${userData.totalEarnings.toFixed(2)}`;
-                
-                // Update team stats
-                document.getElementById('active-members').textContent = userData.team.activeMembers;
-                document.getElementById('unactivated-members').textContent = userData.team.unactivatedMembers;
-                document.getElementById('total-commission').textContent = `R${userData.team.totalCommission}`;
-                
-                // Add glow effect to deposit button if balance is low
-                const depositBtn = document.getElementById('deposit-btn');
-                if (userData.rechargeBalance < 70) {
-                    depositBtn.classList.add('glow-effect');
-                } else {
-                    depositBtn.classList.remove('glow-effect');
-                }
-            }
-            
-            function updateOrdersList() {
-                const ordersList = document.getElementById('orders-list');
-                const noOrdersMessage = document.getElementById('no-orders-message');
-                
-                if (userData.orders.length === 0) {
-                    ordersList.style.display = 'none';
-                    noOrdersMessage.style.display = 'block';
-                } else {
-                    ordersList.style.display = 'block';
-                    noOrdersMessage.style.display = 'none';
-                    
-                    // Clear existing orders
-                    ordersList.innerHTML = '';
-                    
-                    // Add orders
-                    userData.orders.forEach(order => {
-                        const orderElement = document.createElement('div');
-                        orderElement.className = 'order-item';
-                        orderElement.innerHTML = `
-                            <div class="order-details">
-                                <div class="order-name">${order.name}</div>
-                                <div class="order-status">${order.status} (${order.daysRemaining} days left)</div>
-                            </div>
-                            <div class="order-amount">R${order.amount}</div>
-                        `;
-                        ordersList.appendChild(orderElement);
-                    });
-                }
-            }
-            
-            function loadTeamData() {
-                const teamList = document.getElementById('team-list');
-                const noTeamMessage = document.getElementById('no-team-message');
-                
-                if (userData.team.activeMembers === 0 && userData.team.unactivatedMembers === 0) {
-                    teamList.style.display = 'none';
-                    noTeamMessage.style.display = 'block';
-                } else {
-                    teamList.style.display = 'block';
-                    noTeamMessage.style.display = 'none';
-                    
-                    // Clear existing team members
-                    teamList.innerHTML = '';
-                    
-                    // Add team members from userData
-                    userData.team.members.forEach(member => {
-                        const memberElement = document.createElement('div');
-                        memberElement.className = 'team-member';
-                        memberElement.innerHTML = `
-                            <div class="member-details">
-                                <div class="member-name">${member.email}</div>
-                                <div class="member-status ${member.status}">${member.status === 'active' ? 'Active' : 'Unactivated'}</div>
-                            </div>
-                            <div class="member-commission">R${member.commission || 0}</div>
-                        `;
-                        teamList.appendChild(memberElement);
-                    });
-                }
-            }
-            
-            // Function to load team members from referrals
-            function loadTeamMembers() {
-                if (!auth.currentUser) return;
-                
-                const referralsRef = collection(db, "referrals");
-                const q = query(referralsRef, where("inviterId", "==", auth.currentUser.uid));
-                
-                getDocs(q).then((querySnapshot) => {
-                    userData.team.members = [];
-                    userData.team.activeMembers = 0;
-                    userData.team.unactivatedMembers = 0;
-                    userData.team.totalCommission = 0;
-                    
-                    querySnapshot.forEach((doc) => {
-                        const referral = doc.data();
-                        
-                        // Get user data for the invitee
-                        const userDocRef = doc(db, "users", referral.inviteeId);
-                        getDoc(userDocRef).then((userDoc) => {
-                            if (userDoc.exists()) {
-                                const userData = userDoc.data();
-                                const member = {
-                                    email: userData.email || 'Unknown',
-                                    status: referral.status,
-                                    commission: referral.status === 'active' ? 22 : 0
-                                };
-                                
-                                userData.team.members.push(member);
-                                
-                                if (referral.status === 'active') {
-                                    userData.team.activeMembers++;
-                                    userData.team.totalCommission += 22;
-                                } else {
-                                    userData.team.unactivatedMembers++;
-                                }
-                                
-                                // Update UI
-                                updateUI();
-                                loadTeamData();
-                                
-                                // Save updated team data
-                                saveUserData();
-                            }
-                        });
-                    });
-                }).catch((error) => {
-                    console.error("Error loading team members:", error);
-                });
-            }
-            
-            function handleCheckin() {
-                const now = new Date();
-                const currentHour = now.getHours();
-                
-                // Check if it's between 10am and 11am
-                if (currentHour >= 10 && currentHour < 11) {
-                    // Check if user already checked in today
-                    const today = now.toDateString();
-                    if (userData.lastCheckin === today) {
-                        alert('You have already checked in today!');
-                        return;
-                    }
-                    
-                    // Generate random amount between R5 and R10
-                    const randomAmount = (Math.floor(Math.random() * 6) + 5);
-                    
-                    // Add to income wallet
-                    userData.incomeBalance += randomAmount;
-                    userData.lastCheckin = today;
-                    
-                    // Update UI
-                    updateUI();
-                    
-                    // Save data
-                    saveUserData();
-                    
-                    alert(`Check-in successful! You received R${randomAmount} in your Income Wallet.`);
-                } else {
-                    alert('Check-in is only available between 10am and 11am!');
-                }
-            }
-            
-            function exchangeRewardPoints() {
-                if (userData.rewardPoints < 3) {
-                    alert('You need at least 3 reward points to exchange!');
-                    return;
-                }
-                
-                // Calculate amount (1 point = R1)
-                const amount = userData.rewardPoints;
-                
-                // Add to income wallet
-                userData.incomeBalance += amount;
-                
-                // Reset reward points
-                userData.rewardPoints = 0;
-                
-                // Update UI
-                updateUI();
-                
-                // Save data
-                saveUserData();
-                
-                alert(`Successfully exchanged ${amount} reward points for R${amount} in your Income Wallet!`);
-            }
-            
-            function processDailyIncome() {
-                const now = new Date();
-                const today = now.toDateString();
-                
-                userData.orders.forEach(order => {
-                    if (order.status === 'Active') {
-                        // For menu items, payout starts the next day
-                        // For packages, payout starts immediately but we'll simulate daily payouts
-                        const lastPayout = order.lastPayoutDate ? new Date(order.lastPayoutDate) : new Date(order.startDate);
-                        const daysSinceLastPayout = Math.floor((now - lastPayout) / (1000 * 60 * 60 * 24));
-                        
-                        if (daysSinceLastPayout >= 1) {
-                            // Add daily income to wallet
-                            userData.incomeBalance += order.dailyIncome;
-                            userData.totalEarnings += order.dailyIncome;
-                            
-                            // Update last payout date
-                            order.lastPayoutDate = now.toISOString();
-                            
-                            // Reduce days remaining
-                            order.daysRemaining--;
-                            
-                            // If no days remaining, mark as completed
-                            if (order.daysRemaining <= 0) {
-                                order.status = 'Completed';
-                                userData.activeInvestments--;
-                            }
-                            
-                            console.log(`Daily income: R${order.dailyIncome} added from ${order.name}`);
-                        }
-                    }
-                });
-                
-                // Update UI and save data
-                updateUI();
-                saveUserData();
-            }
-            
-            function generateInvitationCode() {
-                const digits = Math.floor(100 + Math.random() * 900);
-                const letters = Array.from({length: 3}, () => 
-                    String.fromCharCode(65 + Math.floor(Math.random() * 26))
-                ).join('');
-                return `PIZZA${digits}${letters}`;
-            }
-            
-            // Function to record referral when a new user signs up
-            function recordReferral(userId, referralCode) {
-                if (!referralCode) return;
-                
-                // Find the user with this referral code
-                const usersRef = collection(db, "users");
-                const q = query(usersRef, where("invitationCode", "==", referralCode));
-                
-                getDocs(q).then((querySnapshot) => {
-                    if (!querySnapshot.empty) {
-                        const inviterDoc = querySnapshot.docs[0];
-                        const inviterId = inviterDoc.id;
-                        
-                        // Update the inviter's team data
-                        const inviterData = inviterDoc.data();
-                        const updatedTeam = {
-                            ...inviterData.team,
-                            unactivatedMembers: (inviterData.team.unactivatedMembers || 0) + 1
-                        };
-                        
-                        updateDoc(doc(db, "users", inviterId), {
-                            team: updatedTeam
-                        });
-                        
-                        // Record the referral relationship
-                        const referralData = {
-                            inviterId: inviterId,
-                            inviteeId: userId,
-                            status: 'unactivated',
-                            date: new Date().toISOString()
-                        };
-                        
-                        addDoc(collection(db, "referrals"), referralData);
-                        
-                        // Update current user's data to show they were referred
-                        userData.referredBy = inviterId;
-                        saveUserData();
-                    }
-                }).catch((error) => {
-                    console.error("Error recording referral:", error);
-                });
-            }
-            
-            // Function to update team member status when they invest
-            function updateTeamMemberStatus(userId, status) {
-                if (!userData.referredBy) return;
-                
-                // Find the referral record
-                const referralsRef = collection(db, "referrals");
-                const q = query(referralsRef, where("inviteeId", "==", userId));
-                
-                getDocs(q).then((querySnapshot) => {
-                    if (!querySnapshot.empty) {
-                        const referralDoc = querySnapshot.docs[0];
-                        const referralData = referralDoc.data();
-                        
-                        // Update the referral status
-                        updateDoc(doc(db, "referrals", referralDoc.id), {
-                            status: status
-                        });
-                        
-                        // Update the inviter's team data
-                        const inviterId = referralData.inviterId;
-                        const inviterDocRef = doc(db, "users", inviterId);
-                        
-                        getDoc(inviterDocRef).then((inviterDoc) => {
-                            if (inviterDoc.exists()) {
-                                const inviterData = inviterDoc.data();
-                                const team = inviterData.team || { activeMembers: 0, unactivatedMembers: 0, totalCommission: 0, members: [] };
-                                
-                                if (status === 'active') {
-                                    team.activeMembers = (team.activeMembers || 0) + 1;
-                                    team.unactivatedMembers = Math.max(0, (team.unactivatedMembers || 0) - 1);
-                                    team.totalCommission = (team.totalCommission || 0) + 22; // R22 commission
-                                    
-                                    // Add the member to the team list
-                                    const member = {
-                                        email: userData.email || 'Unknown',
-                                        status: 'active',
-                                        commission: 22
-                                    };
-                                    team.members.push(member);
-                                }
-                                
-                                updateDoc(inviterDocRef, {
-                                    team: team
-                                });
-                            }
-                        });
-                    }
-                }).catch((error) => {
-                    console.error("Error updating team member status:", error);
-                });
-            }
-            
-            // Simulate daily income (for demo purposes - would be daily in real app)
-            setInterval(function() {
-                processDailyIncome();
-            }, 30000); // Check every 30 seconds for demo (would be 24 hours in real app)
-            
-            function showDashboard(user) {
-                document.getElementById('auth-section').style.display = 'none';
-                document.getElementById('dashboard-section').style.display = 'block';
-                
-                // Update user profile information
-                const displayName = user.displayName || 'User';
-                const email = user.email;
-                const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase();
-                
-                document.getElementById('profile-avatar').textContent = initials;
-                document.getElementById('profile-name').textContent = displayName;
-                document.getElementById('profile-email').textContent = email;
-                
-                // Load user data from Firebase
-                loadUserData(user.uid);
-                
-                // Initialize dashboard functionality
-                initDashboard();
-                updateUI();
-                
-                // Process any pending daily income
-                processDailyIncome();
-            }
-            
-            function showAuth() {
-                document.getElementById('auth-section').style.display = 'flex';
-                document.getElementById('dashboard-section').style.display = 'none';
-            }
         });
 
         // Authentication functionality
@@ -3480,8 +2892,19 @@
                         // Signed up successfully
                         const user = userCredential.user;
                         
+                        // Initialize user data with invitation code
+                        const initialUserData = {
+                            ...userData,
+                            invitationCode: generateInvitationCode()
+                        };
+                        
+                        // Save initial user data to Firestore
+                        return setDoc(doc(db, "users", user.uid), initialUserData);
+                    })
+                    .then(() => {
                         // Record referral if applicable
-                        if (referralCode) {
+                        const user = auth.currentUser;
+                        if (user && referralCode) {
                             recordReferral(user.uid, referralCode);
                         }
                         
@@ -3606,6 +3029,1246 @@
                         }
                 }
             }
+        }
+
+        // Dashboard functionality
+        function initDashboard() {
+            // Banner Slider Functionality
+            const sliderContainer = document.querySelector('.slider-container');
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator');
+            let currentSlide = 0;
+            const slideCount = slides.length;
+            
+            // Set up slider indicators
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => {
+                    currentSlide = index;
+                    updateSlider();
+                });
+            });
+            
+            // Auto slide every 5 seconds
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % slideCount;
+                updateSlider();
+            }, 5000);
+            
+            function updateSlider() {
+                // Update slider position
+                sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Update active indicator
+                indicators.forEach((indicator, index) => {
+                    if (index === currentSlide) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Add hover effects to menu items
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.05)';
+                });
+            });
+            
+            // Bottom navigation functionality
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show target section
+                    document.querySelectorAll('.section').forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    document.getElementById(targetId).classList.add('active');
+                });
+            });
+            
+            // Header action buttons
+            document.getElementById('checkin-btn').addEventListener('click', function() {
+                handleCheckin();
+            });
+            
+            document.getElementById('rewards-btn').addEventListener('click', function() {
+                exchangeRewardPoints();
+            });
+            
+            document.getElementById('invite-btn').addEventListener('click', function() {
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('invite-section').classList.add('active');
+                
+                // Update nav
+                navItems.forEach(nav => nav.classList.remove('active'));
+            });
+            
+            document.getElementById('team-btn').addEventListener('click', function() {
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('team-section').classList.add('active');
+                
+                // Update nav
+                navItems.forEach(nav => nav.classList.remove('active'));
+                
+                // Load team data
+                loadTeamData();
+            });
+            
+            // Secret animation for the special item
+            const secretItem = document.querySelector('.secret-animation');
+            secretItem.addEventListener('click', function() {
+                alert("You found the secret pizza! Enjoy 10% off your next order with code: SECRET10");
+            });
+            
+            // Investment package click functionality
+            const investmentItems = document.querySelectorAll('.investment-item');
+            investmentItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const investmentName = this.querySelector('.investment-name').textContent;
+                    const investmentAmount = parseFloat(this.querySelector('.investment-amount').textContent.replace('R', ''));
+                    
+                    // Check if user has enough balance
+                    if (userData.rechargeBalance < investmentAmount) {
+                        alert(`Insufficient balance! You need R${investmentAmount} in your Recharge Wallet to invest in ${investmentName}`);
+                        return;
+                    }
+                    
+                    // Show confirmation modal
+                    document.getElementById('investment-confirm-text').textContent = `Are you sure you want to invest R${investmentAmount} in ${investmentName}?`;
+                    document.getElementById('investment-confirm-modal').style.display = 'flex';
+                    
+                    // Store investment details for confirmation
+                    window.currentInvestment = {
+                        name: investmentName,
+                        amount: investmentAmount,
+                        element: this
+                    };
+                });
+            });
+            
+            // Menu item investment functionality
+            const menuInvestmentItems = document.querySelectorAll('.menu-item');
+            menuInvestmentItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Check if user has invested in any package first
+                    if (!userData.hasInvested) {
+                        alert('You need to invest in an Investment Package first before you can invest in Today\'s Specials!');
+                        return;
+                    }
+                    
+                    const menuName = this.querySelector('.menu-name').textContent;
+                    const menuPrice = parseFloat(this.querySelector('.menu-price').textContent.replace('R', ''));
+                    
+                    // Check if user has enough balance
+                    if (userData.rechargeBalance < menuPrice) {
+                        alert(`Insufficient balance! You need R${menuPrice} in your Recharge Wallet to invest in ${menuName}`);
+                        return;
+                    }
+                    
+                    // Show confirmation modal
+                    document.getElementById('investment-confirm-text').textContent = `Are you sure you want to invest R${menuPrice} in ${menuName}?`;
+                    document.getElementById('investment-confirm-modal').style.display = 'flex';
+                    
+                    // Store investment details for confirmation
+                    window.currentInvestment = {
+                        name: menuName,
+                        amount: menuPrice,
+                        element: this,
+                        isMenu: true
+                    };
+                });
+            });
+            
+            // Investment confirmation
+            document.getElementById('investment-yes').addEventListener('click', function() {
+                const investment = window.currentInvestment;
+                
+                // IMMEDIATELY deduct amount from recharge balance
+                userData.rechargeBalance -= investment.amount;
+                
+                // Add to active investments
+                userData.activeInvestments++;
+                userData.hasInvested = true;
+                
+                // Create order with proper daily income calculation
+                const orderId = 'ORD' + Date.now();
+                const dailyIncome = calculateDailyIncome(investment.amount, investment.isMenu);
+                const days = investment.isMenu ? 1 : 32;
+                
+                const order = {
+                    id: orderId,
+                    name: investment.name,
+                    amount: investment.amount,
+                    dailyIncome: dailyIncome,
+                    days: days,
+                    daysRemaining: days,
+                    startDate: new Date().toISOString(),
+                    lastPayoutDate: null, // Will be set when first payout happens
+                    status: 'Active',
+                    type: investment.isMenu ? 'Menu' : 'Package'
+                };
+                
+                userData.orders.push(order);
+                
+                // Update UI immediately
+                updateUI();
+                
+                // Show success message
+                showSuccessModal(`Invested successfully in ${investment.name}! You will earn R${dailyIncome} daily.`);
+                
+                // Close modal
+                document.getElementById('investment-confirm-modal').style.display = 'none';
+                
+                // Save data to Firebase
+                saveUserData();
+                
+                // Update team status if this user was referred
+                if (userData.referredBy) {
+                    updateTeamMemberStatus(auth.currentUser.uid, 'active');
+                }
+                
+                // Unlock menu items if this is the first investment
+                if (!investment.isMenu) {
+                    unlockMenuItems();
+                }
+            });
+            
+            document.getElementById('investment-no').addEventListener('click', function() {
+                document.getElementById('investment-confirm-modal').style.display = 'none';
+            });
+            
+            // Modal functionality
+            const modals = document.querySelectorAll('.modal');
+            const closeButtons = document.querySelectorAll('.close-modal');
+            
+            // Close modal when clicking X
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.closest('.modal').style.display = 'none';
+                });
+            });
+            
+            // Close modal when clicking outside
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Bank Account Binding
+            document.getElementById('bank-btn').addEventListener('click', function() {
+                document.getElementById('bank-modal').style.display = 'flex';
+            });
+            
+            document.getElementById('bank-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const fullName = document.getElementById('full-name').value;
+                const bankName = document.getElementById('bank-name').value;
+                const accountNumber = document.getElementById('account-number').value;
+                
+                // In a real app, you would send this data to a server
+                showSuccessModal(`Bank account binding successful!\n\nFull Name: ${fullName}\nBank Name: ${bankName}\nAccount Number: ${accountNumber}`);
+                document.getElementById('bank-modal').style.display = 'none';
+                this.reset();
+            });
+            
+            // Change Password
+            document.getElementById('password-btn').addEventListener('click', function() {
+                document.getElementById('password-modal').style.display = 'flex';
+            });
+            
+            document.getElementById('password-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const oldPassword = document.getElementById('old-password').value;
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                if (newPassword !== confirmPassword) {
+                    alert('New passwords do not match!');
+                    return;
+                }
+                
+                // In a real app, you would verify old password and update to new password
+                showSuccessModal('Password changed successfully!');
+                document.getElementById('password-modal').style.display = 'none';
+                this.reset();
+            });
+            
+            // Customer Service
+            document.getElementById('support-btn').addEventListener('click', function() {
+                window.open('https://wa.me/27631287462', '_blank');
+            });
+            
+            // Transaction Records
+            document.getElementById('records-btn').addEventListener('click', function() {
+                alert('Detailed transaction records would appear here.');
+            });
+            
+            // Orders
+            document.getElementById('orders-btn').addEventListener('click', function() {
+                document.querySelectorAll('.section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById('orders-section').classList.add('active');
+                
+                // Update nav
+                navItems.forEach(nav => nav.classList.remove('active'));
+                document.querySelector('[data-target="orders-section"]').classList.add('active');
+                
+                // Update orders list
+                updateOrdersList();
+            });
+            
+            // Logout
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                if(confirm('Are you sure you want to log out?')) {
+                    signOut(auth).then(() => {
+                        // Sign-out successful.
+                        showSuccessModal('You have been logged out successfully.');
+                        setTimeout(() => {
+                            showAuth();
+                        }, 1500);
+                    }).catch((error) => {
+                        // An error happened.
+                        alert('Error logging out: ' + error.message);
+                    });
+                }
+            });
+            
+            // Enhanced Deposit functionality
+            document.getElementById('deposit-btn').addEventListener('click', function() {
+                document.getElementById('deposit-modal').style.display = 'flex';
+                resetDepositModal();
+            });
+            
+            // Deposit amount selection
+            const depositOptions = document.querySelectorAll('.deposit-option');
+            depositOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    depositOptions.forEach(opt => opt.classList.remove('active'));
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    // Set custom amount to selected value
+                    document.getElementById('custom-amount').value = this.getAttribute('data-amount');
+                    // Update payment details if channel is selected
+                    updatePaymentDetails();
+                });
+            });
+            
+            // Custom amount input
+            document.getElementById('custom-amount').addEventListener('input', function() {
+                const amount = this.value;
+                // Remove active class from all options if custom amount is entered
+                if (amount) {
+                    depositOptions.forEach(opt => opt.classList.remove('active'));
+                }
+                // Update payment details if channel is selected
+                updatePaymentDetails();
+            });
+            
+            // Show payment details when channel is selected
+            document.getElementById('payment-channel').addEventListener('change', function() {
+                updatePaymentDetails();
+            });
+            
+            // Proceed with payment
+            document.getElementById('proceed-payment').addEventListener('click', function() {
+                const amount = getDepositAmount();
+                const channel = document.getElementById('payment-channel').value;
+                
+                if (!amount || amount < 70) {
+                    alert('Minimum deposit amount is R70');
+                    return;
+                }
+                
+                if (!channel) {
+                    alert('Please select a payment channel');
+                    return;
+                }
+                
+                document.getElementById('deposit-modal').style.display = 'none';
+                document.getElementById('payment-confirm-modal').style.display = 'flex';
+            });
+            
+            // Cancel payment
+            document.getElementById('cancel-payment').addEventListener('click', function() {
+                document.getElementById('deposit-modal').style.display = 'none';
+            });
+            
+            // Payment confirmation
+            document.getElementById('payment-yes').addEventListener('click', function() {
+                document.getElementById('payment-confirm-modal').style.display = 'none';
+                document.getElementById('payment-warning-modal').style.display = 'flex';
+            });
+            
+            document.getElementById('payment-no').addEventListener('click', function() {
+                document.getElementById('payment-confirm-modal').style.display = 'none';
+                document.getElementById('deposit-modal').style.display = 'flex';
+            });
+            
+            // Payment warning confirmation
+            document.getElementById('payment-confirm-yes').addEventListener('click', function() {
+                document.getElementById('payment-warning-modal').style.display = 'none';
+                
+                // Create deposit record with pending status
+                const amount = getDepositAmount();
+                
+                // Show AI processing screen with 5-minute countdown
+                showAIProcessingScreen(amount);
+            });
+            
+            document.getElementById('payment-confirm-no').addEventListener('click', function() {
+                document.getElementById('payment-warning-modal').style.display = 'none';
+                document.getElementById('deposit-modal').style.display = 'flex';
+            });
+            
+            // Enhanced Withdrawal functionality
+            document.getElementById('withdraw-btn').addEventListener('click', function() {
+                // Check if user has invested
+                if (!userData.hasInvested) {
+                    alert('You need to make an investment before you can withdraw funds.');
+                    return;
+                }
+                
+                document.getElementById('withdraw-modal').style.display = 'flex';
+                resetWithdrawalModal();
+            });
+            
+            // Wallet selection for withdrawal
+            const walletOptions = document.querySelectorAll('.wallet-option');
+            walletOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove active class from all options
+                    walletOptions.forEach(opt => opt.classList.remove('active'));
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    // Update withdrawal summary
+                    updateWithdrawalSummary();
+                });
+            });
+            
+            // Withdrawal amount input
+            document.getElementById('withdraw-amount').addEventListener('input', function() {
+                updateWithdrawalSummary();
+            });
+            
+            // Confirm withdrawal
+            document.getElementById('confirm-withdrawal').addEventListener('click', function() {
+                const amount = parseFloat(document.getElementById('withdraw-amount').value);
+                const selectedWallet = document.querySelector('.wallet-option.active');
+                
+                if (!selectedWallet) {
+                    alert('Please select a wallet');
+                    return;
+                }
+                
+                const wallet = selectedWallet.getAttribute('data-wallet');
+                
+                // Check if user has enough balance in selected wallet
+                let walletBalance = 0;
+                if (wallet === 'income') {
+                    walletBalance = userData.incomeBalance;
+                } else if (wallet === 'commission') {
+                    walletBalance = userData.commissionBalance;
+                }
+                
+                if (amount > walletBalance) {
+                    alert(`Insufficient balance in ${wallet} wallet!`);
+                    return;
+                }
+                
+                // Calculate withdrawal fee (15%)
+                const fee = amount * 0.15;
+                const netAmount = amount - fee;
+                
+                // Deduct amount from selected wallet
+                if (wallet === 'income') {
+                    userData.incomeBalance -= amount;
+                } else if (wallet === 'commission') {
+                    userData.commissionBalance -= amount;
+                }
+                
+                // Update UI
+                updateUI();
+                
+                // Save data
+                saveUserData();
+                
+                // Redirect to WhatsApp with withdrawal details
+                const message = `Withdrawal Request:\nAmount: R${amount}\nFee: R${fee.toFixed(2)}\nNet Amount: R${netAmount.toFixed(2)}\nWallet: ${wallet}`;
+                const whatsappUrl = `https://wa.me/0818535051?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+                
+                // Show success message
+                showSuccessModal(`Withdrawal request of R${amount} from ${wallet} wallet has been submitted. You will receive R${netAmount.toFixed(2)} after fees.`);
+                
+                // Close modal
+                document.getElementById('withdraw-modal').style.display = 'none';
+                
+                // Reset form
+                resetWithdrawalModal();
+            });
+            
+            // Cancel withdrawal
+            document.getElementById('cancel-withdrawal').addEventListener('click', function() {
+                document.getElementById('withdraw-modal').style.display = 'none';
+            });
+            
+            // Transfer functionality
+            document.getElementById('transfer-btn').addEventListener('click', function() {
+                alert('Transfer between wallets functionality would open here.');
+            });
+            
+            // Invite section functionality
+            document.getElementById('invitation-code').textContent = userData.invitationCode;
+            document.getElementById('invitation-link').textContent = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
+            
+            document.getElementById('share-whatsapp').addEventListener('click', function() {
+                const message = `Join me at Pizza Palace! Use my invitation code: ${userData.invitationCode} or click: pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            });
+            
+            document.getElementById('share-facebook').addEventListener('click', function() {
+                alert('Facebook sharing would be implemented here.');
+            });
+            
+            document.getElementById('copy-link').addEventListener('click', function() {
+                const link = `pizza-rollout.vercel.app/?ref=${userData.invitationCode}`;
+                navigator.clipboard.writeText(link).then(function() {
+                    alert('Invitation link copied to clipboard!');
+                }, function(err) {
+                    alert('Failed to copy link: ' + err);
+                });
+            });
+            
+            // Success modal OK button
+            document.getElementById('success-ok').addEventListener('click', function() {
+                document.getElementById('success-modal').style.display = 'none';
+            });
+        }
+
+        // Load data from Firebase if available
+        function loadUserData(userId) {
+            const userDocRef = doc(db, "users", userId);
+            getDoc(userDocRef).then((docSnap) => {
+                if (docSnap.exists()) {
+                    userData = { ...userData, ...docSnap.data() };
+                    updateUI();
+                    
+                    // Load team members if any
+                    if (userData.team && userData.team.members && userData.team.members.length > 0) {
+                        loadTeamMembers();
+                    }
+                    
+                    // Unlock menu items if user has invested
+                    if (userData.hasInvested) {
+                        unlockMenuItems();
+                    }
+                    
+                    // Process any pending daily income
+                    processDailyIncome();
+                } else {
+                    // Create new user document with invitation code
+                    userData.invitationCode = generateInvitationCode();
+                    saveUserData();
+                }
+            }).catch((error) => {
+                console.error("Error loading user data:", error);
+            });
+        }
+        
+        // Save user data to Firebase
+        function saveUserData() {
+            if (!auth.currentUser) return;
+            
+            const userDocRef = doc(db, "users", auth.currentUser.uid);
+            setDoc(userDocRef, userData, { merge: true })
+            .then(() => {
+                console.log("User data saved successfully");
+            })
+            .catch((error) => {
+                console.error("Error saving user data:", error);
+            });
+        }
+        
+        // Function to calculate daily income based on investment amount and type
+        function calculateDailyIncome(amount, isMenu) {
+            if (isMenu) {
+                // Menu items: R200 -> R320 (60% return), R300 -> R520 (73% return), etc.
+                if (amount === 200) return 320;
+                if (amount === 300) return 520;
+                if (amount === 450) return 750;
+                if (amount === 800) return 1380;
+                return amount * 1.6; // Default 60% return for menu items
+            } else {
+                // Investment packages: R70 -> R14 (20% daily return)
+                return amount * 0.2;
+            }
+        }
+        
+        // Function to show AI processing screen with countdown
+        function showAIProcessingScreen(amount) {
+            const processingScreen = document.getElementById('processing-screen');
+            const countdownElement = document.getElementById('processing-countdown');
+            const aiStatusElement = document.getElementById('ai-status');
+            
+            // Show processing screen
+            processingScreen.style.display = 'flex';
+            
+            // Start countdown (5 minutes)
+            let timeLeft = 5 * 60; // 5 minutes in seconds
+            
+            // Update AI status messages
+            const statusMessages = [
+                "Verifying payment details",
+                "Checking transaction security",
+                "Confirming payment with bank",
+                "Processing transaction",
+                "Finalizing deposit"
+            ];
+            
+            let statusIndex = 0;
+            aiStatusElement.textContent = statusMessages[statusIndex];
+            
+            const countdown = setInterval(function() {
+                timeLeft--;
+                
+                // Update countdown display
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                
+                // Update AI status every 30 seconds
+                if (timeLeft % 30 === 0 && statusIndex < statusMessages.length - 1) {
+                    statusIndex++;
+                    aiStatusElement.textContent = statusMessages[statusIndex];
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    
+                    // IMMEDIATELY add funds to recharge balance
+                    userData.rechargeBalance += amount;
+                    
+                    // IMMEDIATELY add reward points (3 points for R70)
+                    userData.rewardPoints += Math.floor(amount / 70) * 3;
+                    
+                    // Create deposit record
+                    const depositId = 'DEP' + Date.now();
+                    const depositRecord = {
+                        id: depositId,
+                        amount: amount,
+                        status: 'successful',
+                        date: new Date().toISOString(),
+                        userId: auth.currentUser.uid
+                    };
+                    
+                    // Add to transaction records
+                    if (!userData.transactions) userData.transactions = [];
+                    userData.transactions.push(depositRecord);
+                    
+                    // Update UI immediately
+                    updateUI();
+                    
+                    // Save data immediately
+                    saveUserData();
+                    
+                    // Hide processing screen
+                    processingScreen.style.display = 'none';
+                    
+                    // Show success message immediately
+                    showSuccessModal(`AI Bot has successfully processed your deposit of R${amount}! Funds have been added to your Recharge Wallet.`);
+                    
+                    // Reset form
+                    resetDepositModal();
+                }
+            }, 1000);
+        }
+        
+        // Function to unlock menu items when user invests in packages
+        function unlockMenuItems() {
+            // Unlock menu items in home section
+            document.getElementById('menu-margherita').classList.remove('locked');
+            document.getElementById('menu-pepperoni').classList.remove('locked');
+            document.getElementById('menu-bbq').classList.remove('locked');
+            document.getElementById('menu-truffle').classList.remove('locked');
+            
+            // Unlock menu items in menu section
+            document.getElementById('menu-all-margherita').classList.remove('locked');
+            document.getElementById('menu-all-pepperoni').classList.remove('locked');
+            document.getElementById('menu-all-bbq').classList.remove('locked');
+            document.getElementById('menu-all-truffle').classList.remove('locked');
+        }
+        
+        // Function to get deposit amount from form
+        function getDepositAmount() {
+            const customAmount = document.getElementById('custom-amount').value;
+            if (customAmount) {
+                return parseFloat(customAmount);
+            }
+            
+            const activeOption = document.querySelector('.deposit-option.active');
+            if (activeOption) {
+                return parseFloat(activeOption.getAttribute('data-amount'));
+            }
+            
+            return 0;
+        }
+        
+        // Function to update payment details in deposit modal
+        function updatePaymentDetails() {
+            const amount = getDepositAmount();
+            const channel = document.getElementById('payment-channel').value;
+            const paymentDetails = document.getElementById('payment-details');
+            const paymentSteps = document.querySelector('.payment-steps');
+            const paymentActions = document.querySelector('.payment-actions');
+            
+            if (amount >= 70 && channel) {
+                let details = '';
+                let reference = 'Pizza' + Math.floor(1000 + Math.random() * 9000);
+                
+                if (channel === 'discovery') {
+                    details = `
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Bank:</span>
+                            <span class="payment-detail-value">Discovery Bank</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Account Name:</span>
+                            <span class="payment-detail-value">Pizza</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Account Number:</span>
+                            <span class="payment-detail-value">18695378176</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Reference:</span>
+                            <span class="payment-detail-value reference">${reference}</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Amount:</span>
+                            <span class="payment-detail-value">R${amount}</span>
+                        </div>
+                    `;
+                } else if (channel === 'tymebank') {
+                    details = `
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Bank:</span>
+                            <span class="payment-detail-value">Tymebank</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Account Name:</span>
+                            <span class="payment-detail-value">Pizza</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Account Number:</span>
+                            <span class="payment-detail-value">51104524563</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Reference:</span>
+                            <span class="payment-detail-value reference">${reference}</span>
+                        </div>
+                        <div class="payment-detail">
+                            <span class="payment-detail-label">Amount:</span>
+                            <span class="payment-detail-value">R${amount}</span>
+                        </div>
+                    `;
+                }
+                
+                paymentDetails.innerHTML = details;
+                paymentDetails.style.display = 'block';
+                paymentSteps.style.display = 'block';
+                paymentActions.style.display = 'flex';
+            } else {
+                paymentDetails.style.display = 'none';
+                paymentSteps.style.display = 'none';
+                paymentActions.style.display = 'none';
+            }
+        }
+        
+        // Function to update withdrawal summary
+        function updateWithdrawalSummary() {
+            const amount = parseFloat(document.getElementById('withdraw-amount').value) || 0;
+            const selectedWallet = document.querySelector('.wallet-option.active');
+            const withdrawalSummary = document.getElementById('withdrawal-summary');
+            const paymentActions = document.querySelectorAll('.payment-actions')[1]; // Second payment actions in withdrawal modal
+            
+            if (amount >= 50 && selectedWallet) {
+                const wallet = selectedWallet.getAttribute('data-wallet');
+                
+                // Check if user has enough balance in selected wallet
+                let walletBalance = 0;
+                if (wallet === 'income') {
+                    walletBalance = userData.incomeBalance;
+                } else if (wallet === 'commission') {
+                    walletBalance = userData.commissionBalance;
+                }
+                
+                if (amount > walletBalance) {
+                    withdrawalSummary.innerHTML = `
+                        <div class="withdrawal-detail">
+                            <span class="withdrawal-detail-label">Status:</span>
+                            <span class="withdrawal-detail-value" style="color: var(--error);">Insufficient Balance</span>
+                        </div>
+                    `;
+                    paymentActions.style.display = 'none';
+                } else {
+                    // Calculate withdrawal fee (15%)
+                    const fee = amount * 0.15;
+                    const netAmount = amount - fee;
+                    
+                    withdrawalSummary.innerHTML = `
+                        <div class="withdrawal-detail">
+                            <span class="withdrawal-detail-label">Amount:</span>
+                            <span class="withdrawal-detail-value">R${amount}</span>
+                        </div>
+                        <div class="withdrawal-detail">
+                            <span class="withdrawal-detail-label">Fee (15%):</span>
+                            <span class="withdrawal-detail-value fee">-R${fee.toFixed(2)}</span>
+                        </div>
+                        <div class="withdrawal-detail">
+                            <span class="withdrawal-detail-label">You'll Receive:</span>
+                            <span class="withdrawal-detail-value net">R${netAmount.toFixed(2)}</span>
+                        </div>
+                    `;
+                    paymentActions.style.display = 'flex';
+                }
+                
+                withdrawalSummary.style.display = 'block';
+            } else {
+                withdrawalSummary.style.display = 'none';
+                paymentActions.style.display = 'none';
+            }
+        }
+        
+        // Function to reset deposit modal
+        function resetDepositModal() {
+            document.querySelectorAll('.deposit-option').forEach(opt => opt.classList.remove('active'));
+            document.getElementById('custom-amount').value = '';
+            document.getElementById('payment-channel').value = '';
+            document.getElementById('payment-details').style.display = 'none';
+            document.querySelector('.payment-steps').style.display = 'none';
+            document.querySelector('.payment-actions').style.display = 'none';
+        }
+        
+        // Function to reset withdrawal modal
+        function resetWithdrawalModal() {
+            document.querySelectorAll('.wallet-option').forEach(opt => opt.classList.remove('active'));
+            document.getElementById('withdraw-amount').value = '';
+            document.getElementById('withdrawal-summary').style.display = 'none';
+            document.querySelectorAll('.payment-actions')[1].style.display = 'none';
+            
+            // Update wallet balances in withdrawal modal
+            document.querySelector('[data-wallet="income"] .wallet-balance').textContent = `R${userData.incomeBalance.toFixed(2)}`;
+            document.querySelector('[data-wallet="commission"] .wallet-balance').textContent = `R${userData.commissionBalance.toFixed(2)}`;
+        }
+        
+        // Function to show success modal
+        function showSuccessModal(message) {
+            document.getElementById('success-message').textContent = message;
+            document.getElementById('success-modal').style.display = 'flex';
+        }
+        
+        function updateUI() {
+            // Update balances
+            document.getElementById('current-balance').textContent = `R${userData.rechargeBalance.toFixed(2)}`;
+            document.getElementById('reward-points').textContent = userData.rewardPoints;
+            
+            // Update wallet values
+            document.getElementById('recharge-wallet').textContent = `R${userData.rechargeBalance.toFixed(2)}`;
+            document.getElementById('income-wallet').textContent = `R${userData.incomeBalance.toFixed(2)}`;
+            document.getElementById('commission-wallet').textContent = `R${userData.commissionBalance.toFixed(2)}`;
+            
+            // Update stats
+            document.getElementById('stat-balance').textContent = `R${userData.rechargeBalance.toFixed(2)}`;
+            document.getElementById('stat-points').textContent = userData.rewardPoints;
+            document.getElementById('stat-investments').textContent = userData.activeInvestments;
+            document.getElementById('stat-earnings').textContent = `R${userData.totalEarnings.toFixed(2)}`;
+            
+            // Update team stats
+            document.getElementById('active-members').textContent = userData.team.activeMembers;
+            document.getElementById('unactivated-members').textContent = userData.team.unactivatedMembers;
+            document.getElementById('total-commission').textContent = `R${userData.team.totalCommission}`;
+            
+            // Add glow effect to deposit button if balance is low
+            const depositBtn = document.getElementById('deposit-btn');
+            if (userData.rechargeBalance < 70) {
+                depositBtn.classList.add('glow-effect');
+            } else {
+                depositBtn.classList.remove('glow-effect');
+            }
+        }
+        
+        function updateOrdersList() {
+            const ordersList = document.getElementById('orders-list');
+            const noOrdersMessage = document.getElementById('no-orders-message');
+            
+            if (userData.orders.length === 0) {
+                ordersList.style.display = 'none';
+                noOrdersMessage.style.display = 'block';
+            } else {
+                ordersList.style.display = 'block';
+                noOrdersMessage.style.display = 'none';
+                
+                // Clear existing orders
+                ordersList.innerHTML = '';
+                
+                // Add orders
+                userData.orders.forEach(order => {
+                    const orderElement = document.createElement('div');
+                    orderElement.className = 'order-item';
+                    orderElement.innerHTML = `
+                        <div class="order-details">
+                            <div class="order-name">${order.name}</div>
+                            <div class="order-status">${order.status} (${order.daysRemaining} days left)</div>
+                        </div>
+                        <div class="order-amount">R${order.amount}</div>
+                    `;
+                    ordersList.appendChild(orderElement);
+                });
+            }
+        }
+        
+        function loadTeamData() {
+            const teamList = document.getElementById('team-list');
+            const noTeamMessage = document.getElementById('no-team-message');
+            
+            if (userData.team.activeMembers === 0 && userData.team.unactivatedMembers === 0) {
+                teamList.style.display = 'none';
+                noTeamMessage.style.display = 'block';
+            } else {
+                teamList.style.display = 'block';
+                noTeamMessage.style.display = 'none';
+                
+                // Clear existing team members
+                teamList.innerHTML = '';
+                
+                // Add team members from userData
+                userData.team.members.forEach(member => {
+                    const memberElement = document.createElement('div');
+                    memberElement.className = 'team-member';
+                    memberElement.innerHTML = `
+                        <div class="member-details">
+                            <div class="member-name">${member.email}</div>
+                            <div class="member-status ${member.status}">${member.status === 'active' ? 'Active' : 'Unactivated'}</div>
+                        </div>
+                        <div class="member-commission">R${member.commission || 0}</div>
+                    `;
+                    teamList.appendChild(memberElement);
+                });
+            }
+        }
+        
+        // Function to load team members from referrals
+        function loadTeamMembers() {
+            if (!auth.currentUser) return;
+            
+            const referralsRef = collection(db, "referrals");
+            const q = query(referralsRef, where("inviterId", "==", auth.currentUser.uid));
+            
+            getDocs(q).then((querySnapshot) => {
+                userData.team.members = [];
+                userData.team.activeMembers = 0;
+                userData.team.unactivatedMembers = 0;
+                userData.team.totalCommission = 0;
+                
+                querySnapshot.forEach((doc) => {
+                    const referral = doc.data();
+                    
+                    // Get user data for the invitee
+                    const userDocRef = doc(db, "users", referral.inviteeId);
+                    getDoc(userDocRef).then((userDoc) => {
+                        if (userDoc.exists()) {
+                            const inviteeData = userDoc.data();
+                            const member = {
+                                email: inviteeData.email || 'Unknown',
+                                status: referral.status,
+                                commission: referral.status === 'active' ? 22 : 0
+                            };
+                            
+                            userData.team.members.push(member);
+                            
+                            if (referral.status === 'active') {
+                                userData.team.activeMembers++;
+                                userData.team.totalCommission += 22;
+                            } else {
+                                userData.team.unactivatedMembers++;
+                            }
+                            
+                            // Update UI
+                            updateUI();
+                            loadTeamData();
+                            
+                            // Save updated team data
+                            saveUserData();
+                        }
+                    });
+                });
+            }).catch((error) => {
+                console.error("Error loading team members:", error);
+            });
+        }
+        
+        function handleCheckin() {
+            const now = new Date();
+            const currentHour = now.getHours();
+            
+            // Check if it's between 10am and 11am
+            if (currentHour >= 10 && currentHour < 11) {
+                // Check if user already checked in today
+                const today = now.toDateString();
+                if (userData.lastCheckin === today) {
+                    alert('You have already checked in today!');
+                    return;
+                }
+                
+                // Generate random amount between R5 and R10
+                const randomAmount = (Math.floor(Math.random() * 6) + 5);
+                
+                // Add to income wallet
+                userData.incomeBalance += randomAmount;
+                userData.lastCheckin = today;
+                
+                // Update UI
+                updateUI();
+                
+                // Save data
+                saveUserData();
+                
+                showSuccessModal(`Check-in successful! You received R${randomAmount} in your Income Wallet.`);
+            } else {
+                alert('Check-in is only available between 10am and 11am!');
+            }
+        }
+        
+        function exchangeRewardPoints() {
+            if (userData.rewardPoints < 3) {
+                alert('You need at least 3 reward points to exchange!');
+                return;
+            }
+            
+            // Calculate amount (1 point = R1)
+            const amount = userData.rewardPoints;
+            
+            // Add to income wallet
+            userData.incomeBalance += amount;
+            
+            // Reset reward points
+            userData.rewardPoints = 0;
+            
+            // Update UI
+            updateUI();
+            
+            // Save data
+            saveUserData();
+            
+            showSuccessModal(`Successfully exchanged ${amount} reward points for R${amount} in your Income Wallet!`);
+        }
+        
+        function processDailyIncome() {
+            const now = new Date();
+            const today = now.toDateString();
+            
+            // Check if we've already processed income today
+            if (userData.dailyIncomeProcessed === today) {
+                return;
+            }
+            
+            userData.orders.forEach(order => {
+                if (order.status === 'Active') {
+                    // For menu items, payout starts the next day
+                    // For packages, payout starts immediately but we'll simulate daily payouts
+                    const lastPayout = order.lastPayoutDate ? new Date(order.lastPayoutDate) : new Date(order.startDate);
+                    const daysSinceLastPayout = Math.floor((now - lastPayout) / (1000 * 60 * 60 * 24));
+                    
+                    if (daysSinceLastPayout >= 1) {
+                        // Add daily income to wallet
+                        userData.incomeBalance += order.dailyIncome;
+                        userData.totalEarnings += order.dailyIncome;
+                        
+                        // Update last payout date
+                        order.lastPayoutDate = now.toISOString();
+                        
+                        // Reduce days remaining
+                        order.daysRemaining--;
+                        
+                        // If no days remaining, mark as completed
+                        if (order.daysRemaining <= 0) {
+                            order.status = 'Completed';
+                            userData.activeInvestments--;
+                        }
+                        
+                        console.log(`Daily income: R${order.dailyIncome} added from ${order.name}`);
+                    }
+                }
+            });
+            
+            // Mark today as processed
+            userData.dailyIncomeProcessed = today;
+            
+            // Update UI and save data
+            updateUI();
+            saveUserData();
+        }
+        
+        function generateInvitationCode() {
+            // Generate a unique referral code that doesn't change
+            const digits = Math.floor(100 + Math.random() * 900);
+            const letters = Array.from({length: 3}, () => 
+                String.fromCharCode(65 + Math.floor(Math.random() * 26))
+            ).join('');
+            return `PIZZA${digits}${letters}`;
+        }
+        
+        // Function to record referral when a new user signs up
+        function recordReferral(userId, referralCode) {
+            if (!referralCode) return;
+            
+            // Find the user with this referral code
+            const usersRef = collection(db, "users");
+            const q = query(usersRef, where("invitationCode", "==", referralCode));
+            
+            getDocs(q).then((querySnapshot) => {
+                if (!querySnapshot.empty) {
+                    const inviterDoc = querySnapshot.docs[0];
+                    const inviterId = inviterDoc.id;
+                    
+                    // Update the inviter's team data
+                    const inviterData = inviterDoc.data();
+                    const updatedTeam = {
+                        ...inviterData.team,
+                        unactivatedMembers: (inviterData.team.unactivatedMembers || 0) + 1
+                    };
+                    
+                    updateDoc(doc(db, "users", inviterId), {
+                        team: updatedTeam
+                    });
+                    
+                    // Record the referral relationship
+                    const referralData = {
+                        inviterId: inviterId,
+                        inviteeId: userId,
+                        status: 'unactivated',
+                        date: new Date().toISOString()
+                    };
+                    
+                    addDoc(collection(db, "referrals"), referralData);
+                    
+                    // Update current user's data to show they were referred
+                    userData.referredBy = inviterId;
+                    saveUserData();
+                }
+            }).catch((error) => {
+                console.error("Error recording referral:", error);
+            });
+        }
+        
+        // Function to update team member status when they invest
+        function updateTeamMemberStatus(userId, status) {
+            if (!userData.referredBy) return;
+            
+            // Find the referral record
+            const referralsRef = collection(db, "referrals");
+            const q = query(referralsRef, where("inviteeId", "==", userId));
+            
+            getDocs(q).then((querySnapshot) => {
+                if (!querySnapshot.empty) {
+                    const referralDoc = querySnapshot.docs[0];
+                    const referralData = referralDoc.data();
+                    
+                    // Update the referral status
+                    updateDoc(doc(db, "referrals", referralDoc.id), {
+                        status: status
+                    });
+                    
+                    // Update the inviter's team data
+                    const inviterId = referralData.inviterId;
+                    const inviterDocRef = doc(db, "users", inviterId);
+                    
+                    getDoc(inviterDocRef).then((inviterDoc) => {
+                        if (inviterDoc.exists()) {
+                            const inviterData = inviterDoc.data();
+                            const team = inviterData.team || { activeMembers: 0, unactivatedMembers: 0, totalCommission: 0, members: [] };
+                            
+                            if (status === 'active') {
+                                team.activeMembers = (team.activeMembers || 0) + 1;
+                                team.unactivatedMembers = Math.max(0, (team.unactivatedMembers || 0) - 1);
+                                team.totalCommission = (team.totalCommission || 0) + 22; // R22 commission
+                                
+                                // Add the member to the team list
+                                const member = {
+                                    email: userData.email || 'Unknown',
+                                    status: 'active',
+                                    commission: 22
+                                };
+                                team.members.push(member);
+                            }
+                            
+                            updateDoc(inviterDocRef, {
+                                team: team
+                            });
+                        }
+                    });
+                }
+            }).catch((error) => {
+                console.error("Error updating team member status:", error);
+            });
+        }
+        
+        // Simulate daily income (for demo purposes - would be daily in real app)
+        setInterval(function() {
+            processDailyIncome();
+        }, 30000); // Check every 30 seconds for demo (would be 24 hours in real app)
+        
+        function showDashboard(user) {
+            document.getElementById('auth-section').style.display = 'none';
+            document.getElementById('dashboard-section').style.display = 'block';
+            
+            // Update user profile information
+            const displayName = user.displayName || 'User';
+            const email = user.email;
+            const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase();
+            
+            document.getElementById('profile-avatar').textContent = initials;
+            document.getElementById('profile-name').textContent = displayName;
+            document.getElementById('profile-email').textContent = email;
+            
+            // Load user data from Firebase
+            loadUserData(user.uid);
+            
+            // Initialize dashboard functionality
+            initDashboard();
+            updateUI();
+            
+            // Process any pending daily income
+            processDailyIncome();
+        }
+        
+        function showAuth() {
+            document.getElementById('auth-section').style.display = 'flex';
+            document.getElementById('dashboard-section').style.display = 'none';
         }
     </script>
 </body>
