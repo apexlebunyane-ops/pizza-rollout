@@ -49,7 +49,7 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* All your CSS styles from the original file */
+        /* All your CSS styles remain the same */
         * {
             margin: 0;
             padding: 0;
@@ -2705,6 +2705,41 @@
             dailyIncomeProcessed: null
         };
 
+        // LocalStorage functions
+        function saveToLocalStorage() {
+            if (!auth.currentUser) return;
+            
+            const userId = auth.currentUser.uid;
+            const userDataString = JSON.stringify(userData);
+            localStorage.setItem(`pizzaPalace_${userId}`, userDataString);
+            
+            console.log("Data saved to LocalStorage for user:", userId);
+        }
+
+        function loadFromLocalStorage() {
+            if (!auth.currentUser) return;
+            
+            const userId = auth.currentUser.uid;
+            const userDataString = localStorage.getItem(`pizzaPalace_${userId}`);
+            
+            if (userDataString) {
+                const savedData = JSON.parse(userDataString);
+                userData = { ...userData, ...savedData };
+                console.log("Data loaded from LocalStorage for user:", userId);
+                return true;
+            }
+            
+            return false;
+        }
+
+        function clearLocalStorage() {
+            if (!auth.currentUser) return;
+            
+            const userId = auth.currentUser.uid;
+            localStorage.removeItem(`pizzaPalace_${userId}`);
+            console.log("Data cleared from LocalStorage for user:", userId);
+        }
+
         // Firebase Authentication State Listener
         document.addEventListener('DOMContentLoaded', function() {
             // WhatsApp Group Button
@@ -3238,7 +3273,7 @@
                 // Close modal
                 document.getElementById('investment-confirm-modal').style.display = 'none';
                 
-                // Save data to Firebase
+                // Save data to LocalStorage and Firebase
                 saveUserData();
                 
                 // Update team status if this user was referred
@@ -3572,45 +3607,73 @@
 
         // Load data from Firebase if available
         function loadUserData(userId) {
-            const userDocRef = doc(db, "users", userId);
-            getDoc(userDocRef).then((docSnap) => {
-                if (docSnap.exists()) {
-                    userData = { ...userData, ...docSnap.data() };
-                    updateUI();
-                    
-                    // Load team members if any
-                    if (userData.team && userData.team.members && userData.team.members.length > 0) {
-                        loadTeamMembers();
-                    }
-                    
-                    // Unlock menu items if user has invested
-                    if (userData.hasInvested) {
-                        unlockMenuItems();
-                    }
-                    
-                    // Process any pending daily income
-                    processDailyIncome();
-                } else {
-                    // Create new user document with invitation code
-                    userData.invitationCode = generateInvitationCode();
-                    saveUserData();
+            // First try to load from LocalStorage
+            const loadedFromLocalStorage = loadFromLocalStorage();
+            
+            if (loadedFromLocalStorage) {
+                updateUI();
+                
+                // Load team members if any
+                if (userData.team && userData.team.members && userData.team.members.length > 0) {
+                    loadTeamMembers();
                 }
-            }).catch((error) => {
-                console.error("Error loading user data:", error);
-            });
+                
+                // Unlock menu items if user has invested
+                if (userData.hasInvested) {
+                    unlockMenuItems();
+                }
+                
+                // Process any pending daily income
+                processDailyIncome();
+            } else {
+                // If not in LocalStorage, try Firebase
+                const userDocRef = doc(db, "users", userId);
+                getDoc(userDocRef).then((docSnap) => {
+                    if (docSnap.exists()) {
+                        userData = { ...userData, ...docSnap.data() };
+                        updateUI();
+                        
+                        // Load team members if any
+                        if (userData.team && userData.team.members && userData.team.members.length > 0) {
+                            loadTeamMembers();
+                        }
+                        
+                        // Unlock menu items if user has invested
+                        if (userData.hasInvested) {
+                            unlockMenuItems();
+                        }
+                        
+                        // Process any pending daily income
+                        processDailyIncome();
+                        
+                        // Save to LocalStorage for future use
+                        saveToLocalStorage();
+                    } else {
+                        // Create new user document with invitation code
+                        userData.invitationCode = generateInvitationCode();
+                        saveUserData();
+                    }
+                }).catch((error) => {
+                    console.error("Error loading user data:", error);
+                });
+            }
         }
         
-        // Save user data to Firebase
+        // Save user data to Firebase and LocalStorage
         function saveUserData() {
             if (!auth.currentUser) return;
             
+            // Save to LocalStorage immediately
+            saveToLocalStorage();
+            
+            // Also save to Firebase for backup
             const userDocRef = doc(db, "users", auth.currentUser.uid);
             setDoc(userDocRef, userData, { merge: true })
             .then(() => {
-                console.log("User data saved successfully");
+                console.log("User data saved successfully to Firebase");
             })
             .catch((error) => {
-                console.error("Error saving user data:", error);
+                console.error("Error saving user data to Firebase:", error);
             });
         }
         
@@ -4256,7 +4319,7 @@
             document.getElementById('profile-name').textContent = displayName;
             document.getElementById('profile-email').textContent = email;
             
-            // Load user data from Firebase
+            // Load user data from LocalStorage or Firebase
             loadUserData(user.uid);
             
             // Initialize dashboard functionality
